@@ -22,7 +22,7 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > Start the App in Browser : http://localhost:3000/
 
-![React Screen](/public/react-screen.png)
+![React Screen](/images/react-screen.png)
 
 
 # **Install MongoDB :**
@@ -105,5 +105,5 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > View index.html Browser : http://localhost:4000/	
 
-![React Screen](/public/react-screen.png)
+![React Screen](/images/react-screen.png)
 
