@@ -1,0 +1,23 @@
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 3px solid #eee;
+}
+.btn {
+  margin: auto 10%;
+}
+.clsStatus {
+  color: blue;
+  font-weight: bold;
+}
+.clsErrs {
+  color: red;
+  font-weight: bold;
+}
+
+.alignCenter {
+  margin: 20px auto;
+}
+textarea {
+  max-width: 95%;
+}
