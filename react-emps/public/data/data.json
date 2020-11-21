@@ -1,0 +1,82 @@
+{
+  "empCols": [ 
+    {
+      "col-header": "Emp Name",
+      "text": "Emp Name"
+    },
+    {
+      "col-header": "Mobile",
+      "text": "Mobile"
+    },
+    {
+      "col-header": "Position",
+      "text": "Position"
+    },
+    {
+      "col-header": "Dept",
+      "text": "Dept"
+    },
+    {
+      "col-header": "Sal",
+      "text": "Sal"
+    },
+    {
+      "col-header": "Status",
+      "text": "Status"
+    },
+    {
+      "col-header": "Role",
+      "text": "Role"
+    },
+    {
+      "col-header": "Email",
+      "text": "Email"
+    }
+  ],
+  "adminCols": [ 
+    {
+      "col-header": "Email Sent",
+      "text": "Email Sent"
+    },
+	{
+      "col-header": "Email Confirmed",
+      "text": "Email Confirmed"
+    },
+	{
+      "col-header": "Emp ID",
+      "text": "Emp ID"
+    },
+	{
+      "col-header": "Emp Name",
+      "text": "Emp Name"
+    },
+    {
+      "col-header": "Mobile",
+      "text": "Mobile"
+    },
+    {
+      "col-header": "Position",
+      "text": "Position"
+    },
+    {
+      "col-header": "Dept",
+      "text": "Dept"
+    },
+    {
+      "col-header": "Sal",
+      "text": "Sal"
+    },
+    {
+      "col-header": "Status",
+      "text": "Status"
+    },
+    {
+      "col-header": "Role",
+      "text": "Role"
+    },
+    {
+      "col-header": "Email",
+      "text": "Email"
+    }
+  ]
+}
