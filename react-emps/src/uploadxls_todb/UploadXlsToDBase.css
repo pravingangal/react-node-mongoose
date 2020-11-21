@@ -1,0 +1,32 @@
+
+.w80
+{
+  width:80%;
+}
+.centerFlex
+{
+  display:flex;
+  justify-content: center;
+  
+}
+
+.clsStatus {
+  color: blue;
+  font-weight: bold;
+}
+.clsErrs {
+  color: red;
+  font-weight: bold;
+}
+textarea {
+  max-width: 95%;
+}
+
+.container .jumbotron .btn 
+{
+  word-break: break-all;
+  font-size:9px;
+  color:#000000;
+  font-weight: 700;     
+  
+}
