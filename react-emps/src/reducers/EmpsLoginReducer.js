@@ -21,8 +21,7 @@ const EmpsLoginReducer = (state = initState, action = {}) => {
   switch (action.type) {
     case EMP_LOGGED_IN:
       
-      if (action.dataLoad) {
-       
+      if (action.dataLoad) {       
         return {
           ...state,                  
           empsArr:action.dataLoad.emps,
@@ -31,7 +30,7 @@ const EmpsLoginReducer = (state = initState, action = {}) => {
           role:action.dataLoad.role,         
           refreshToken:action.dataLoad.refreshToken,
           empValidated:true ,         
-          SUPER_ADMIN:   action.dataLoad.SUPER_ADMIN
+          SUPER_ADMIN:action.dataLoad.SUPER_ADMIN
         };
       }
       break;
