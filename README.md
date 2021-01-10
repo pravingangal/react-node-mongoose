@@ -12,17 +12,27 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > Go to newly created Project Folder
 
-> Install bootstrap using npm
+> Install dependencies using npm
 
-> In index.js : import "bootstrap/dist/css/bootstrap.css";
+> Install axios : Database operations
 
-> Install font-awesome using npm
+> Install bootstrap : Use of Bootstrap Library
 
-> In index.js : import "font-awesome/css/font-awesome.min.css";
+> In index.js : import "bootstrap/dist/css/bootstrap.css"
 
-> For 2-way node server-API  and APP communication : Install socket.io using npm
+> Install font-awesome : Use of font-awesome Icons
 
-> Get socket (In App.js in this case) : import socketIOClient from "socket.io-client";
+> In index.js : import "font-awesome/css/font-awesome.min.css"
+
+> Install jquery and popper.js: In index import "jquery/dist/jquery"
+
+> Install jwt-decode : For decoding jwt Token
+
+> Install socket.io : For 2-way node server-API  and APP communication
+
+> Get socket : import socketIOClient from "socket.io-client";
+
+> Install redux dependencies
 
 > Start App : npm start 
 
@@ -102,6 +112,8 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > exceljs : Excel file operations
 
+> express : Web application framework for node
+
 > http : Create node server
 
 > mongoose : Create Schema, connect to mongoDB
@@ -110,9 +122,14 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > socket.io : Two way communication – node server and react app
 
+> nodemailer :  Emailer for node
+
 > Start node server : npm start
 
 > View index.html Browser : http://localhost:4000/	
 
+# **Install Mailcatcher Locally (Local SMTP Server and http server email checking interface) :**
 
-
+Install ruby package : https://rubyinstaller.org/
+After installtion : Start command prompt with ruby, in command prompt type gem install mailcatcher
+Start mailcatcher and View Emails : In Command prompt type mailcatcher and open http://127.0.0.1:1080/
