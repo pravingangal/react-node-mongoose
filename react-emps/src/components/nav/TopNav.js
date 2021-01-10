@@ -42,7 +42,8 @@ TopNav.propTypes = {
 };
 
 function mapStateToProps(state) { 
-return { empValidated: state.empValidated,refreshToken:state.refreshToken};
+  
+return { empValidated: state.EmpsLoginReducer.empValidated,refreshToken:state.EmpsLoginReducer.refreshToken};
 }
 
 function mapDispatchToProps(dispatch) {
