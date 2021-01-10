@@ -8,5 +8,12 @@ export const EmpApi = {
         empLoginData
       );
     },
+    loggedInSendEmail:(empLoginSendEmailData)=>{
+      return axios.post(
+        "http://localhost:4000/empApi/empLoggedInSendEmail",
+        empLoginSendEmailData
+      );
+    },
   },
+ 
 };
