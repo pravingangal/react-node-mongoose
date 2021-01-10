@@ -1,13 +1,17 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import EmpsLoginReducer from "../reducers/EmpsLoginReducer";
+import EmpsLoginEmailReducer from "../reducers/EmpsLoginEmailReducer";
 
 
-
+const rootReducer = combineReducers({
+  EmpsLoginReducer,
+  EmpsLoginEmailReducer
+});
 
 const store = createStore(  
-    EmpsLoginReducer,
+  rootReducer,
     composeWithDevTools(applyMiddleware(thunk))   
   );
   
