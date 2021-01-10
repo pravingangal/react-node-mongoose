@@ -37,7 +37,7 @@ class LoginPage extends Component {
           passWord:localStorage.passWord?localStorage.passWord:"",
         },        
         
-      isChecked:localStorage.isChecked?localStorage.isChecked:"",
+      isChecked:localStorage.isChecked?localStorage.isChecked:false,
       });
 
   }
@@ -53,7 +53,7 @@ class LoginPage extends Component {
       },
       empLoginErrors:[...nextProps.empLoginErrors],
       loading:nextProps.loading,
-	  isChecked:localStorage.isChecked?localStorage.isChecked:"",
+	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
     });
 
 	  nextProps.history.push("/dashboard");
@@ -70,7 +70,7 @@ class LoginPage extends Component {
       },
       empLoginErrors:[...nextProps.empLoginErrors],
       loading:nextProps.loading,
-	  isChecked:localStorage.isChecked?localStorage.isChecked:"",
+	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
     });	
   }
   
@@ -194,7 +194,7 @@ class LoginPage extends Component {
               <div className="form-group input-id">                                                          
                 <input
                   type="text"
-                  className="form-control form-control-lg"
+                  className="form-control form-control-lg "
                   id="employeeId"
                   name="employeeId" 
                   maxLength="18"                 
@@ -216,7 +216,7 @@ class LoginPage extends Component {
                   type="passWord"
                   name="passWord"
                   maxLength="18"  
-                  className="form-control form-control-lg"
+                  className="form-control form-control-lg "
                   id="passWord"                  
                   value={formData.passWord  }
                   onChange={this.handleChange}            
@@ -236,7 +236,7 @@ class LoginPage extends Component {
              
                 <div className="checkbox">
                   <label>
-                    <input type="checkbox" checked={isChecked  }  name="remMe" onChange={this.handleCheckBox} />
+                    <input type="checkbox" checked={!!isChecked}  name="remMe" onChange={this.handleCheckBox} />
                     &nbsp;Remember me
                   </label>
                 </div>
@@ -273,9 +273,9 @@ LoginPage.propTypes = {
 
 function mapStateToProps(state) { 
   return {
-    loading: state.loading,
-    empValidated: state.empValidated,
-    empLoginErrors: Object.values(state.empLoginErrors),   
+    loading: state.EmpsLoginReducer.loading,
+    empValidated: state.EmpsLoginReducer.empValidated,
+    empLoginErrors: Object.values(state.EmpsLoginReducer.empLoginErrors),   
   };
 }
 
