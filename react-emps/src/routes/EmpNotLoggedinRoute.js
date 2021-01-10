@@ -25,7 +25,7 @@ EmpNotLoggedinRoute.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { empValidated: state.empValidated,
+  return { empValidated: state.EmpsLoginReducer.empValidated,
   };
 }
 
