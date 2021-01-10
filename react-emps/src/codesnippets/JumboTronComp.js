@@ -22,4 +22,3 @@ JumboTronComp.propTypes = {
 
 
 export default JumboTronComp;
-
