@@ -1,3 +1,4 @@
+
 .loginWrap {
   background:#fff;
   padding: 5px auto !important;
@@ -8,6 +9,7 @@
   margin: 10% auto;
   max-height: 360px;
   height:360px;
+  font-size: 0.8em;
 }
 .loginWrap h3 {
   text-align: center;
@@ -115,4 +117,3 @@ input[type='text']:valid + label,input[type='password']:valid + label{
   }
   
 }
-  
