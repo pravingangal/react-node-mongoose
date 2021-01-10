@@ -43,6 +43,8 @@ footer {
   display: flex;
   justify-content: center;
   margin:-20px;
+  position:relative;
+  top:-10px;
 }
 
   
@@ -55,4 +57,3 @@ footer {
       left:30px;  
   }
 }
-  
