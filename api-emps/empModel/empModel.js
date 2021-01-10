@@ -48,9 +48,10 @@ empSchema.plugin(uniqueValidator, {
   message: "Duplicate field error..Record not saved..",
 });
 
-empSchema.methods.getAdmin_JSON_WEB_TOKEN = function getAdmin_JSON_WEB_TOKEN(empID) {
+
+empSchema.methods.getAdmin_JSON_WEB_TOKEN = function getAdmin_JSON_WEB_TOKEN(empID,emailSent,emailConfirmed,confirmationToken) {
   
-  return this._getAdmin_JSON_WEB_TOKEN(empID)
+  return this._getAdmin_JSON_WEB_TOKEN(empID,emailSent,emailConfirmed,confirmationToken)
 };
 
 empSchema.methods.getEmp_JSON_WEB_TOKEN = function getEmp_JSON_WEB_TOKEN() {
@@ -77,7 +78,7 @@ empSchema.methods._getEmp_JSON_WEB_TOKEN = function empSchema() {
 };
 
 
-empSchema.methods._getAdmin_JSON_WEB_TOKEN = function empSchema(empID) {
+empSchema.methods._getAdmin_JSON_WEB_TOKEN = function empSchema(empID,emailSent,emailConfirmed,confirmationToken) {
   
   return jwt.sign(
     {
@@ -90,8 +91,9 @@ empSchema.methods._getAdmin_JSON_WEB_TOKEN = function empSchema(empID) {
       status: this.status,
       role: this.role,
       email: this.email,
-      emailSent:this.emailSent,
-      emailConfirmed:this.emailConfirmed,
+      emailSent:emailSent,
+      emailConfirmed:emailConfirmed,
+      confirmationToken:confirmationToken,      
       SUPER_ADMIN:false,  
     },  
     process.env.JSONWT_SEC_KEY
