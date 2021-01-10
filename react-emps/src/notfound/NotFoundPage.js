@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const NotFoundPage = ({ empValidated }) => {
-  return ( <JumboTronComp displayMsg={"Page Not Found!"}>
+  return ( <JumboTronComp diplayMsg={"Page Not Found!"}>
     <Link to={!empValidated ?'/login':'/dashboard'} className="btn btn-primary btn-lg">{!empValidated ?"Login...":"Dashboard.."}</Link>
   </JumboTronComp>                
   );
@@ -17,8 +17,7 @@ NotFoundPage.propTypes = {
 };
 
 function mapStateToProps(state) { 
-return { empValidated: state.empValidated,};
+return { empValidated: state.EmpsLoginReducer.empValidated,};
 }
 
 export default connect(mapStateToProps)(NotFoundPage);
-
