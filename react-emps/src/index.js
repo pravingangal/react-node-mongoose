@@ -12,8 +12,8 @@ import "font-awesome/css/font-awesome.min.css";
 import {empLoggedIn} from "./actions/EmpLoginAction";
 
 
-if (localStorage.refreshJWToken) {
 
+if (localStorage.refreshJWToken) {
   
   const tokenLoad = decode(localStorage.refreshJWToken);
  
@@ -25,7 +25,7 @@ if (localStorage.refreshJWToken) {
   else
   {     
       tokenLoad.emps= {...tokenLoad};
-      tokenLoad.refreshToken=localStorage.refreshJWToken;      
+      tokenLoad.refreshToken=localStorage.refreshJWToken;          
   }
 
   store.dispatch(empLoggedIn({...tokenLoad}));
