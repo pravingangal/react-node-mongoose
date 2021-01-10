@@ -16,7 +16,7 @@ HomePage.propTypes = {
 };
 
 function mapStateToProps(state) { 
-  return { empValidated: state.empValidated,};
+  return { empValidated: state.EmpsLoginReducer.empValidated,};
 }
 
 export default connect(mapStateToProps)(HomePage);
