@@ -1,10 +1,10 @@
-//async function FetchData  (url)  {
 
-  export  async function checkAPIServerConnection(url)  {
-  console.log("???????????????",url);
+ export  async function checkAPIServerConnection(url)  {
 
   let data = null;
-  await fetch(url).then((response)=>{console.log(response);response.status===200?data=response:response.json();}).catch((err)=>{console.log("err.....",err);});
+  await fetch(url).then((response)=>{
+	  
+	  response.status===200?data=response:response.json();}).catch((err)=>{console.log("err.....",err);});
   
  return  new Promise((resolve, reject) => {
 if(data)
@@ -41,4 +41,3 @@ else
 
 };
 export default FetchData;
-
