@@ -10,6 +10,7 @@ class newEmp {
       status: "",
       role: "",
       email: "",
+      confirmationToken:""
     };
   }
 
