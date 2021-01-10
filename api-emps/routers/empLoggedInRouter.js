@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import empModel from "../empModel/empModel";
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
 
 
 function getSuper_JSON_WEB_TOKEN()
@@ -82,14 +82,20 @@ function empLoggedInRouter(req, res) {
                                    
                                 } else if (emps && (emps.role === "Admin" || emps.role === "Super") && PWDEXISTS) {  
                                   const role= emps.role;
-                                  const adminEmp=emps;
-                                  empModel
-                                    .find({}).select("-_id -pwdHash -confirmationToken -createdAt -updatedAt -__v")
+                                  const adminEmp=emps;                                  
+                                  empModel.find({}).select("-_id -pwdHash -createdAt -updatedAt -__v")                                    
                                     .then((allEmps) => {  
-                                      const emps=allEmps ;                                   
-                                      
-                                      const tempRefreshToken=adminEmp.getAdmin_JSON_WEB_TOKEN(loggedInEmp.employeeId);
-                                     
+                                      const emps=allEmps ;                                       
+                                      let loggedInEmpObj=allEmps.find((obj,index)=>
+                                      {
+                                        if( parseInt(obj.id)===parseInt(loggedInEmp.employeeId)   ) 
+                                        {  
+                                                                                 
+                                          return allEmps[index];
+                                        }
+                                      });
+
+                                      const tempRefreshToken=adminEmp.getAdmin_JSON_WEB_TOKEN(loggedInEmp.employeeId,loggedInEmpObj.emailSent,loggedInEmpObj.emailConfirmed,loggedInEmpObj.confirmationToken);                                    
                                       res.json({ emps,role:role,refreshToken:tempRefreshToken,SUPER_ADMIN:false, });
                                       
                                     })
