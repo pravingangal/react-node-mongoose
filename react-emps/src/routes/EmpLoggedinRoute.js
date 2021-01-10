@@ -23,12 +23,12 @@ const EmpLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
 
 
 EmpLoggedinRoute.propTypes = {
-  component: PropTypes.object.isRequired,
+  component: PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.func.isRequired]),
   empValidated: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
-  return { empValidated: state.empValidated,};
+  return { empValidated: state.EmpsLoginReducer.empValidated,};
 }
 
 export default connect(mapStateToProps)(EmpLoggedinRoute);
