@@ -21,7 +21,7 @@ class App extends Component {
     const { history } = this.props; 
     return (
       <div className="container-fluid">
-         <TopNav empName={".empValidated"} />       
+         <TopNav  />       
            <Router >
            <Switch>
 
