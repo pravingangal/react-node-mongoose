@@ -15,7 +15,6 @@ footer {
   border-top: 1px solid #000;
   height: 8%;
 }
-
 .footerBorder:after {
   content: "";
   display: block;
@@ -44,10 +43,8 @@ footer {
   justify-content: center;
   margin:-20px;
   position:relative;
-  top:-10px;
+  top:-10px; 
 }
-
-  
 @media all and (max-width: 768px) {
 
   footer {
@@ -56,4 +53,4 @@ footer {
   .footerBorder:after {
       left:30px;  
   }
-}
+}  
