@@ -124,6 +124,10 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > nodemailer :  Emailer for node
 
+> ejs :  Template engine for emailer
+
+> jwt-decode :  Decode tokens
+
 > Start node server : npm start
 
 > View index.html Browser : http://localhost:4000/	
