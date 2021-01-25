@@ -9,19 +9,19 @@ import DashboardPage from "./components/dashboard/DashboardPage";
 import UploadXlsToDBase from "./uploadxls_todb/UploadXlsToDBase";
 import Footer from "./components/footer/Footer";
 import NotFoundPage from "./notfound/NotFoundPage";
+import EmpConfirmationPage from "./components/empconfirmation/EmpConfirmationPage";
 import "./App.css";
-
 
 class App extends Component {
   constructor(props) {    
     super();        
   }
-  
+ 
   render() {
     const { history } = this.props; 
     return (
-      <div className="container-fluid">
-         <TopNav  />       
+      <div className="container-fluid" >
+         <TopNav    />       
            <Router >
            <Switch>
 
@@ -56,6 +56,14 @@ class App extends Component {
                 exact
                 component={UploadXlsToDBase}
             /> 
+
+            <Route   
+                location={this.props.location}
+                history={history}   
+                path="/confirm/:token"
+                exact
+                component={EmpConfirmationPage}
+            />        
 
              <Route component={NotFoundPage} />
 
