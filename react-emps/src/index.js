@@ -11,12 +11,8 @@ import "bootstrap/dist/js/bootstrap"
 import "font-awesome/css/font-awesome.min.css";
 import {empLoggedIn} from "./actions/EmpLoginAction";
 
-
-
-if (localStorage.refreshJWToken) {
-  
-  const tokenLoad = decode(localStorage.refreshJWToken);
- 
+if (localStorage.refreshJWToken) {  
+  const tokenLoad = decode(localStorage.refreshJWToken); 
   if(tokenLoad.SUPER_ADMIN)
   {
     tokenLoad.emps=[];
@@ -27,9 +23,7 @@ if (localStorage.refreshJWToken) {
       tokenLoad.emps= {...tokenLoad};
       tokenLoad.refreshToken=localStorage.refreshJWToken;          
   }
-
-  store.dispatch(empLoggedIn({...tokenLoad}));
- 
+  store.dispatch(empLoggedIn({...tokenLoad})); 
 }
 else
  {
