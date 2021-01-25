@@ -5,16 +5,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const HomePage = ({ empValidated }) => {
-  return ( <JumboTronComp displayMsg={"Homepage..!"}>
+  return ( <JumboTronComp displayMsg={"Homepage..!"} jumboID="homePageDiv">
    <Link to={!empValidated ?'/login':'/dashboard'} className="btn btn-primary btn-lg">{!empValidated ?"Login...":"Dashboard.."}</Link>
 </JumboTronComp>                
 );
-};
-    
+};   
 HomePage.propTypes = {  
-    empValidated: PropTypes.bool.isRequired,
+    empValidated: PropTypes.bool.isRequired
 };
-
 function mapStateToProps(state) { 
   return { empValidated: state.EmpsLoginReducer.empValidated,};
 }
