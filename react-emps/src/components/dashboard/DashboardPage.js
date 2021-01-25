@@ -6,125 +6,160 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { empLoginSendEmailAction } from "../../actions/EmpLoginAction";
 import FetchData from "../../apiemps_serverops/FetchData";
+import {checkAPIServerConnection} from "../../apiemps_serverops/FetchData";
+import store from "../../store/store";
+import {empLoggedInSendEmailErr} from "../../actions/EmpLoginAction";
+import EmpsSpinner from "../../utilities/EmpsSpinner";
 import $ from "jquery";
 
 class DashboardPage extends Component {
-
   constructor(props) {
-
     super();
     this.state = {
       empCols: [],
       adminCols: [],
       errs:{},  
       selAllChecked:false,
-      selOneChecked:{}
+      selOneChecked:{}, 
+      bulkEmailErrFlag:false,  
+      loading:false ,
+      empEmailConfirmationIDArr:[]      
     };
-    this.url="http://localhost:3000/data/data.json"  
-      
-  }
-  
+    this.url="http://localhost:3000/data/data.json";
+    this.apiURL="http://127.0.0.1:4000/";     
+  }  
   componentDidMount()
   {    
     FetchData(this.url).then((res)=>{
     this.setState({empCols:[...res.empCols],adminCols:[...res.adminCols]})
     }).catch((errs)=>{
       this.setState({errs:errs})
-    });
+    });    
     
-  }
-
-   showMsg=()=>{
-    alert("...TBD...")}
-
-    sendEmail=(event)=>{
-      
-      event.preventDefault();
-      let JQUERY=$.noConflict();
-    
-
-      let emailArr=[];
-      
-   
-      document.querySelectorAll("table.tblflexSuper.tblsuper tbody tr[data-row*='d_'] ").forEach((elem,index)=>{
-     
-        let cBox=JQUERY(elem).find("input[id*='selOne']");
-      
-        
-        if(cBox.prop("checked"))
-        {
-          let tdEmail=JQUERY(elem).find("td[col-header='Email']");
-          let tdEmpID=JQUERY(elem).find("td[col-header='Emp ID']");           
-          const myEmpObj={"EmpId":tdEmpID.prop("textContent"),"Email":tdEmail.prop("textContent")}
-          emailArr.push(myEmpObj);
-        };
-      
-      
-    }
-   
-    );
-      
-    if(emailArr.length===0)
-      alert("Please Select Emp For Sending Email...");
-    else
-        {          
-            this.props.empLoginSendEmailAction(emailArr); 
-        }
-    }
-
-    handleCheckChange=(event)=>{
-    
-   this.setState({selOneChecked:{...this.state.selOneChecked,[event.target.name]:!this.state.selOneChecked[event.target.name]}});
-     
-    }
-
-    handleCheckChangeAll=()=>{}
-
-    handleCheckClick=(event)=>
-    {
-      
-     let tempObj={};
-     
-        if(event.target.id.toString().search("selAll")===0  && event.target.checked )
-        {
-         
-         document.querySelectorAll("input[id*='selOne']").forEach(elem=>{
-          
-          
-           tempObj[elem.id]=true;
+   if(typeof window!=="undefined")
+    {      
+      window.addEventListener("storage",e=>{       
+        const tempID=localStorage.getItem("empEmailConfirmationID");  
            
-          });
-         
+        if(!!this.state.empEmailConfirmationIDArr.includes(tempID.toString().trim())===false  && tempID.trim()!=="")
+          this.setState({empEmailConfirmationIDArr:[...this.state.empEmailConfirmationIDArr,tempID]});        
+      });
+     
+   }
+  }
+   componentWillUnmount()
+   {    
+    this.setState({empEmailConfirmationIDArr:[]});    
+     if(typeof window!=="undefined")
+    {
+        window.removeEventListener("storage",()=>{
+        localStorage.removeItem("empEmailConfirmationID"); 
+     });
+    }
+   }
+  static getDerivedStateFromProps(nextProps, prevState){
+    if(nextProps.empEmailsLoading!==prevState.empEmailsLoading){
+      return { empEmailsLoading: nextProps.empEmailsLoading};
+   }
+   else return null;
+  }  
+  componentDidUpdate(prevProps, prevState) {  
+    if(prevProps.empEmailsLoading!==this.props.empEmailsLoading){        
+      this.setState({loading: false});  
+    }
+  }
+showMsg=()=>{
+    alert("...TBD...")}
+sendEmail=(event)=>{      
+      event.preventDefault();
+      this.setState({...this.state, loading:true});
+      checkAPIServerConnection(this.apiURL)
+      .then((res) => 
+      {
+            if (res.status === 200) 
+            {          
+                  let JQUERY=$.noConflict();
+                  let emailArr=[];                               
+                  document.querySelectorAll("table.tblflexSuper.tblsuper tbody tr[data-row*='d_'] ").forEach((elem,index)=>{                
+                  let cBox=JQUERY(elem).find("input[id*='selOne']");                  
+                    if(cBox.prop("checked"))
+                    {
+                      let tdEmail=JQUERY(elem).find("td[col-header='Email']");
+                      let tdEmpID=JQUERY(elem).find("td[col-header='Emp ID']");
+                      let tdEmpName=JQUERY(elem).find("td[col-header='Emp Name']");                        
+                      const myEmpObj={"EmpId":tdEmpID.prop("textContent"),"EmpName":tdEmpName.prop("textContent"),"Email":tdEmail.prop("textContent")}
+                      emailArr.push(myEmpObj);
+                    };                                   
+                }              
+                );                 
+                if(emailArr.length===0)
+                {
+                  alert("Please Select Emp For Sending Email...");
+                  this.setState({...this.state, loading:false});
+                }  
+                else
+                    {          
+                        this.props.empLoginSendEmailAction(emailArr); 
+                    }
+
+          }
+          else
+          {
+            store.dispatch(empLoggedInSendEmailErr({empsError: "Internal Server Error"}));
+            this.setState({...this.state, loading:false});
+          }          
+          
+      }
+      ).catch((err)=>{
+        store.dispatch(empLoggedInSendEmailErr({empsError: "Internal Server Error"}));
+        this.setState({...this.state, loading:false});
+      })
+    }
+
+    handleCheckChange=(event)=>{    
+   this.setState({selOneChecked:{...this.state.selOneChecked,[event.target.name]:!this.state.selOneChecked[event.target.name]}});     
+    }
+    handleCheckChangeAll=()=>{}
+    handleCheckClick=(event)=>
+    {      
+     let tempObj={};     
+        if(event.target.id.toString().search("selAll")===0  && event.target.checked )
+        {         
+         document.querySelectorAll("input[id*='selOne']").forEach(elem=>{                   
+           tempObj[elem.id]=true;           
+          });         
          this.setState( {...this.state,selAllChecked:true,selOneChecked:{...tempObj }});
         }
         if(event.target.id.toString().search("selAll")===0  && !event.target.checked )
-        {
-         
+        {         
          document.querySelectorAll("input[id*='selOne']").forEach(elem=>{
           tempObj[elem.id]=false;
-
-        });
-         
+        });         
          this.setState( {...this.state,selAllChecked:false,selOneChecked:{...tempObj }});
         }
     }
-
-
    render()
    {
-    const { empValidated,empsArr,role,SUPER_ADMIN,emailSentArr } =this.props;
+    const { empValidated,empsArr,role,SUPER_ADMIN,emailSentArr,empEmailErrors,empEmailConfirmed } =this.props;
+    const{loading}=this.state;
     const EMPSCOLS=[...this.state.empCols];
     const ADMINCOLS=[...this.state.adminCols];
     let emailArrCtr=0;
-
-    return (          
-    <div className="container marginTop"  >             
+    const CAPTION="Role.."+role;
+    const ERR=empEmailErrors?"Email Send Err.."+empEmailErrors:"";
+    return (  
+                       
+    <div className="container marginTop "  >
+       
+       <div className="  captionDiv " table-header={CAPTION} err-header={ERR}></div>  
+       <span className="dashBoardSpinner">{loading?<EmpsSpinner spinType={"SM"} msg={"Sending..."} />:null}</span>    
+          
     {empValidated && SUPER_ADMIN  && role==="Super" ?
     (
 
 //*********admin admin start********************************* */
                <table className="tblflexSuper tblsuper"  >
-                 <caption >{role}</caption>
+                
                  <thead >
                      <tr >
                          <th key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()}>Role</th>
@@ -159,7 +194,7 @@ class DashboardPage extends Component {
                  empValidated && !SUPER_ADMIN  && (role==="Super" || role==="Admin") ?
                (			   		
                 <table  className="tblflexSuper tblsuper" >
-                  <caption >{role}</caption>
+                 
                 <thead >
                                     <tr  >
                                     {
@@ -192,25 +227,21 @@ class DashboardPage extends Component {
                                        </tr>
                   </thead>                  
                   <tbody >                                     
-                                      {
-										  
+                    {										  
 									   empsArr && empsArr.length ===undefined ?
-									   (
-                      
-                     
+									   (                                           
 											<tr data-row="d_0">
 													<td col-header={"All Emails"} key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()}>                                                      
                             <div className="custom-control custom-checkbox paddingSM">                                                                                                                                                               
                             <input type="checkbox"  className='custom-control-input ' key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} id="selOne2" name="selOne2" checked={this.state.selOneChecked["selOne2"]} onChange={this.handleCheckChange}  />
-                            <label className="custom-control-label " htmlFor="selOne2">{(emailSentArr[0] &&  emailSentArr[0].emailSent===true)||( empsArr.emailSent===true)?"Sent":"Not Sent"}</label>
+                            <label className="custom-control-label " htmlFor="selOne2">{(emailSentArr[0] &&  emailSentArr[0].emailSent===true)?"Sent":(emailSentArr[0] && emailSentArr[0].emailErr?(<React.Fragment><span>{"Not Sent "}</span><i title={emailSentArr[0].emailErr} className='fa fa-exclamation-triangle clsErr'></i></React.Fragment>):("Not Sent"))}</label>
                             <button key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} className='btn btnsm btn-primary smButton2' onClick={this.sendEmail}>{"Send"}
                             </button>
                             </div>                                                     
                             </td>
 													<td col-header={"Email Confirmed?"} key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()}>
                           <span className="paddingSM"></span>
-                            {(emailSentArr[0] &&  emailSentArr[0].emailConfirmed===true)||(empsArr.emailConfirmed===true)?"Confirmed":"Not Comnfirmed"}
-                            
+                            {(emailSentArr[0] &&  emailSentArr[0].emailConfirmed===true)||(empsArr.emailConfirmed===true)||(empEmailConfirmed===true) || (emailSentArr[0]  && this.state.empEmailConfirmationIDArr.includes(empsArr["id"])  && emailSentArr[0].emailSent===true) ?"Confirmed":"Not Confirmed.."}                            
                           </td>
 											{
 													Object.values(empsArr).map
@@ -230,11 +261,13 @@ class DashboardPage extends Component {
                                        empsArr.map((valObj,i)=>
                                                                {      
                                                                  
-                                                                  let emailSentFlag=false,emailConfirmedFlag=false;                                                                 
+                                                                  let emailSentFlag=false,emailConfirmedFlag=false; 
+                                                                  let emailErr=null;                                                                
                                                                       if(emailSentArr.length>0 && emailSentArr.length-1 >= emailArrCtr && parseInt(emailSentArr[emailArrCtr]["EmpId"])===parseInt(valObj["id"])  &&  emailSentArr[emailArrCtr]["Email"]===valObj["email"])
                                                                       {                                                                        
                                                                         if(emailSentArr[emailArrCtr]["emailSent"]===true) emailSentFlag=true;
-                                                                        if(emailSentArr[emailArrCtr]["emailConfirmed"]===true) emailConfirmedFlag=true;
+                                                                        if(emailSentArr[emailArrCtr]["emailConfirmed"]===true  || empEmailConfirmed===true || (this.state.empEmailConfirmationIDArr.includes(parseInt(valObj["id"]).toString().trim()))   ) emailConfirmedFlag=true;
+                                                                        emailErr=emailSentArr[emailArrCtr]["emailErr"];                                                                        
                                                                         emailArrCtr++;
                                                                       }
                                                                 
@@ -250,7 +283,7 @@ class DashboardPage extends Component {
 																	   return (<td col-header={(k===0 || k===1)?"":colHeader} key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()}>
                                        {k===0  && i===0?
                                           <div className="custom-control custom-checkbox  selAllSmall">                                                                                
-                                          <input type="checkbox" onClick={this.handleCheckClick} className='custom-control-input ' key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} id="selAll_Small" name="selAll_Small" checked={this.state.selAllChecked}  onChange={this.handleCheckChangeAll} />                                                                                   
+                                          <input type="checkbox" onClick={this.handleCheckClick} className='custom-control-input ' key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} id="selAll_Small" name="selAll_Small" checked={this.state.selAllChecked}  onChange={this.handleCheckChangeAll} />
                                           <label className="custom-control-label" htmlFor="selAll_Small">{"Select All"}</label>&nbsp;
                                           <button key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} className='btn btnsm btn-primary ' onClick={this.sendEmail}>{"Send"}
                                           </button>
@@ -259,8 +292,7 @@ class DashboardPage extends Component {
                                       {k===0 || k===1?  
                                       <React.Fragment> 
 
-                                        <div className=" check">                                                                                
-                                          
+                                        <div className=" check">                                                                                                                          
                                             <span >{colHeader}</span> 
                                         </div>
 
@@ -268,7 +300,7 @@ class DashboardPage extends Component {
                                           (<div className="custom-control custom-checkbox ">                                                                                
                                             <input type="checkbox"  className='custom-control-input ' key={+new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random()} id={"selOne_"+i+"_"+k} name={"selOne_"+i+"_"+k}  checked={this.state.selOneChecked["selOne_"+i+"_"+k]} onChange={this.handleCheckChange}  />                                                                                   
                                             <label className="custom-control-label" htmlFor={"selOne_"+i+"_"+k}>
-                                                {val===true || emailSentFlag? "Email Sent":"Email Not Sent"}
+                                                {val===true || emailSentFlag? "Sent":(emailErr?(<React.Fragment><span>{"Not Sent "}</span><i title={emailErr} className='fa fa-exclamation-triangle clsErr'></i></React.Fragment>):("Not Sent "))}
                                             </label> 
                                             </div> 
                                           ):(val===true || emailConfirmedFlag ?"Confirmed":"Not Confirmed")
@@ -289,12 +321,12 @@ class DashboardPage extends Component {
                   </table>
                   
                        
-//*********EMP admin super end********************************* */
+//*********EMP admin super end ********************************* */
                ):
               (
 //*********emp only start********************************* */				
 				<table  className="tblflexSuper tblsuper" >
-                 <caption >{role}</caption>
+                 
                                     <thead >
                                     <tr >                             
                                     {                                     
@@ -324,7 +356,9 @@ class DashboardPage extends Component {
              )               
              )
    }
-</div>           
+   
+</div> 
+       
 );
    }
 }
@@ -334,7 +368,7 @@ DashboardPage.propTypes = {
      empsArr:PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.array.isRequired]),
      role:PropTypes.string.isRequired, 
      emailSentArr:PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.array.isRequired]),     
-     empEmailErrors:PropTypes.object.isRequired,
+     empEmailErrors:PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.string.isRequired]), 
      SUPER_ADMIN:PropTypes.bool.isRequired,
  };
  
@@ -342,8 +376,10 @@ DashboardPage.propTypes = {
    return { empValidated: state.EmpsLoginReducer.empValidated,
      empsArr:state.EmpsLoginReducer.empsArr,role:state.EmpsLoginReducer.role, 
      emailSentArr:state.EmpsLoginEmailReducer.emailSentArr,     
-     empEmailErrors:state.EmpsLoginEmailReducer.empEmailErrors,    
-     SUPER_ADMIN:state.EmpsLoginReducer.SUPER_ADMIN
+     empEmailErrors:state.EmpsLoginEmailReducer.empEmailErrors,       
+     empEmailsLoading:state.EmpsLoginEmailReducer.empEmailsLoading,
+     empEmailConfirmed:state.EmpsEmailConfirmedReducer.empEmailConfirmed,
+     SUPER_ADMIN:state.EmpsLoginReducer.SUPER_ADMIN,
 };
  }
 
