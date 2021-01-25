@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Emp API node , node mailer with babel to implement ES6 for react mongoose crud (mongodb) application"
+    />
+    <style>
+.disFlex {
+  display: flex;    
+  justify-content: center;
+  align-items:center; 
+  margin:10% auto;
+}
+.container {    
+    border-radius: 1em;
+    box-shadow: 0 1px 3px 0 #460374; 
+	width:80%;
+	height:100%;
+	min-height: 100%;	
+	}
+.navDiv
+{
+	width:98%;
+	background: #460374;
+	background: -moz-linear-gradient(top, #460374 0%, #8693ab 100%);
+	background: -webkit-linear-gradient(top, #460374 0%, #8693ab 100%);
+	background: linear-gradient(to bottom, #460374 0%, #8693ab 100%);
+	color: #FFFFFF;
+	font-weight:bold;
+	padding:1%;
+	
+}
+#wel
+{
+	position:relative;
+	top:-80px;
+	-moz-transform: rotate(-10deg);
+	-o-transform: rotate(-10deg);
+	-webkit-transform: rotate(-10deg);
+	-ms-transform: rotate(-10deg);
+	transform: rotate(-10deg);
+}
+#wel div
+{
+	font-size:2vw;
+	font-weight:bold;
+}
+.resP
+{
+	
+	border:1px solid #460374;
+	height:auto;
+	width:15%;
+	
+}
+ .container p{   
+	text-align:center;
+	height:150px;
+  }
+@media screen  and (max-width: 890px) 
+{
+		.resP
+		{
+			width:35%;
+		}
+		#wel
+		{
+			position:relative;
+			top:-10px;
+
+		}
+		#wel div
+		{
+			font-size:4vw;
+		}
+
+ }
+
+
+ </style>
+  </head>
+  <body>
+  <div class=" disFlex">
+	<div class="container"  >
+	<div class="navDiv" >
+			Welcome to Corp<sup>TM</sup>
+		</div>
+	<div id="wel">
+        <img src="cid:welcome"  class="resP" />		
+        <div><%= empName %> </div>
+      </div>	  
+	  <p>Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum Lorem epsum
+		  	<br/><br/>
+	  <span><strong>Please confirm your email by clicking on confirmation url : </strong></span>
+	  		<br/>
+	  <span><a href=<%= 'http://localhost:3000/confirm/'+ confirmationToken %> >http://localhost:3000/confirm/token</a></span>
+	</p>
+    </div>   
+   </div>   
+  </body>
+</html>
