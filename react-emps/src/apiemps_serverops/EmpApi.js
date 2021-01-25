@@ -14,6 +14,12 @@ export const EmpApi = {
         empLoginSendEmailData
       );
     },
+    empConfirmedEmail:(empConfirmEmailData)=>{
+      return axios.post(
+        "http://localhost:4000/empApi/empConfirmedEmail",
+        empConfirmEmailData
+      );
+    }
   },
  
 };
