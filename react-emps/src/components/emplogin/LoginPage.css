@@ -9,7 +9,6 @@
   margin: 10% auto;
   max-height: 360px;
   height:360px;
-  font-size: 0.8em;
 }
 .loginWrap h3 {
   text-align: center;
@@ -87,9 +86,6 @@ input[type='text']:valid + label,input[type='password']:valid + label{
 {
   margin-top:-5%;
 }
-
-
-
 @media all and (min-width:481px) and (max-width: 768px) {
 
   .loginWrap {
@@ -101,19 +97,16 @@ input[type='text']:valid + label,input[type='password']:valid + label{
     margin-top:35%;
     border:1px solid red;
   }
-}
-  
+} 
 @media all and (min-width:320px) and (max-width: 480px) {
 
   .loginWrap {
     margin: 25% auto;
   
   }
-
   .marginTop2
   {
     margin-top:37%;
     
-  }
-  
+  }  
 }
