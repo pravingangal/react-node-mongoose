@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const EmpLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
-
  return (    
   <Route
     {...rest}
@@ -18,11 +17,7 @@ const EmpLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
   />
 );
 }
- 
-
-
-
-EmpLoggedinRoute.propTypes = {
+ EmpLoggedinRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.func.isRequired]),
   empValidated: PropTypes.bool.isRequired,
 };
