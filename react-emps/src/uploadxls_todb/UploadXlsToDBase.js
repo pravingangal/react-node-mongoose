@@ -4,9 +4,7 @@ import socketIOClient from "socket.io-client";
 import {checkAPIServerConnection} from "../apiemps_serverops/FetchData";
 import "./UploadXlsToDBase.css";
 
-class UploadXlsToDBase extends Component {
-  
-
+class UploadXlsToDBase extends Component { 
 constructor(props) {
   super();
   this.state = {
@@ -15,9 +13,7 @@ constructor(props) {
     apiURL: "http://127.0.0.1:4000",
     appErrs: {},
   };
-
-  this.socket = null;
-  
+  this.socket = null;  
 }
 
 checkAPIServerConnection = () => {
