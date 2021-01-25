@@ -11,8 +11,7 @@ import store from "../../store/store";
 import {empLoggedErr} from "../../actions/EmpLoginAction";
 
 
-class LoginPage extends Component {
- 
+class LoginPage extends Component { 
   constructor(props)
   {
     super();
@@ -24,11 +23,9 @@ class LoginPage extends Component {
       loading:false,
       isChecked:localStorage.isChecked?localStorage.isChecked:false,
     };
-    this.apiURL="http://127.0.0.1:4000/";
-  
+    this.apiURL="http://127.0.0.1:4000/";  
   }
-
-  UNSAFE_componentDidMount()
+  componentDidMount()
   {
       this.setState({
         ...this.state,
@@ -42,7 +39,6 @@ class LoginPage extends Component {
 
   }
   UNSAFE_componentWillReceiveProps(nextProps){
-
   if(nextProps.empValidated) 
   {
 	   this.setState({
@@ -55,13 +51,10 @@ class LoginPage extends Component {
       loading:nextProps.loading,
 	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
     });
-
 	  nextProps.history.push("/dashboard");
   }
-
   if(!nextProps.empValidated)
-  {
-    
+  {    
     this.setState({
       ...this.state,
       formData: {        
@@ -72,17 +65,11 @@ class LoginPage extends Component {
       loading:nextProps.loading,
 	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
     });	
+  }  
   }
-  
-
-  }
-
-
-
 
   handleValidation = (event) => {
     const validationErrors={};
-
     if(this.state.isChecked )
     {
 		localStorage.isChecked=this.state.isChecked;		
@@ -114,9 +101,7 @@ class LoginPage extends Component {
             break;                      
       default:
      
-   }
-   
-
+   }   
     this.setState({...this.state, formErrors:{...validationErrors},empLoginErrors:[] });
       if(validationErrors.employeeId==="" && validationErrors.passWord==="")
         return true
@@ -124,45 +109,30 @@ class LoginPage extends Component {
         return false;
     
   };
-
-  handleSubmit = (event) => {   
-    
+  handleSubmit = (event) => {       
     event.preventDefault();
-
-    const {formData}=this.state;
-
-   
+    const {formData}=this.state;   
    if(this.handleValidation(event))	
     {
       this.setState({...this.state, loading:true,submitFlag:true});
       checkAPIServerConnection(this.apiURL)
           .then((res) => {
                             if (res.status === 200) 
-                            {
-                              
-                              console.log("API Server is up and running......",res);
-                              
+                            {                             
                               this.props.empLoginAction(formData); 
                               this.setState({...this.state, submitFlag:true, empLoginErrors:[],});
                             }
                             else
-                            {
-                                                          
+                            {                                                         
                               store.dispatch(empLoggedErr({empsError: "Internal Server Error"}));
-                              this.setState({...this.state,submitFlag:false,  });	
-								              console.log("server error......");
-                             
+                              this.setState({...this.state,submitFlag:false,  });									
                             }    
                           }   
-          ).catch((err)=>{ store.dispatch(empLoggedErr({...err})); });                 
-                
-    }
-    
+          ).catch((err)=>{ store.dispatch(empLoggedErr({...err})); });                                
+    }    
   };
 
-
   handleChange=(event) => {
-
     this.setState({
       ...this.state,
       formData: {
@@ -170,27 +140,22 @@ class LoginPage extends Component {
         [event.target.name]: event.target.value.trim(),
       },
     });
-
   }
-
   handleCheckBox = (event) => {    
     this.setState({
       ...this.state,      
       isChecked: event.target.checked,      
     });
   };
-
   render() {
     const { formData, isChecked } = this.state;
-
     const {loading, empValidated}=this.props;
     return (
       <div className="container-fluid h-65 w95 ">
         <div className="row justify-content-center align-items-center h-100">
           <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3 loginWrap marginTop0 marginTop1 marginTop2">
     <h3>Login...</h3>
-            <form className="form-horizontal" onSubmit={this.handleSubmit} noValidate>
-           
+            <form className="form-horizontal" onSubmit={this.handleSubmit} noValidate>           
               <div className="form-group input-id">                                                          
                 <input
                   type="text"
@@ -229,11 +194,9 @@ class LoginPage extends Component {
                 <label className="control-label" htmlFor="passWord">
                   passWord                  
                 </label>                     
-                  <EmpToolTip empErrMsg={this.state.formErrors.passWord} />                 
-                  
+                  <EmpToolTip empErrMsg={this.state.formErrors.passWord} />                                   
               </div>
-              <div className="form-group marginTopNegative">
-             
+              <div className="form-group marginTopNegative">             
                 <div className="checkbox">
                   <label>
                     <input type="checkbox" checked={!!isChecked}  name="remMe" onChange={this.handleCheckBox} />
@@ -247,8 +210,7 @@ class LoginPage extends Component {
                   className="btn btn-info btn-lg btn-block "
                   value="Sign In"
                   disabled={(loading || this.state.loading) && this.state.submitFlag}
-                />
-                
+                />                
               </div>
               <div className="form-group centerText">
               <span className="alert-danger">
@@ -263,14 +225,12 @@ class LoginPage extends Component {
     );
   }
 }
-
 LoginPage.propTypes = {
   empLoginAction: PropTypes.func.isRequired,
   loading:PropTypes.bool.isRequired,
   empValidated: PropTypes.bool.isRequired,
   empLoginErrors:PropTypes.array.isRequired
 };
-
 function mapStateToProps(state) { 
   return {
     loading: state.EmpsLoginReducer.loading,
@@ -278,11 +238,9 @@ function mapStateToProps(state) {
     empLoginErrors: Object.values(state.EmpsLoginReducer.empLoginErrors),   
   };
 }
-
 function mapDispatchToProps(dispatch) {
   return {
     empLoginAction: bindActionCreators(empLoginAction, dispatch),
   };
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
