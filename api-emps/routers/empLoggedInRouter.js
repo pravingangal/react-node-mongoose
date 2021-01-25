@@ -2,10 +2,8 @@ import mongoose from "mongoose";
 import empModel from "../empModel/empModel";
 import jwt, { decode } from "jsonwebtoken";
 
-
 function getSuper_JSON_WEB_TOKEN()
 {
-
   return jwt.sign(
     {
       role:"Super",
@@ -13,20 +11,14 @@ function getSuper_JSON_WEB_TOKEN()
     },   
     process.env.JSONWT_SEC_KEY
   );
-
 }
-
 function empLoggedInRouter(req, res) {
 
-  const loggedInEmp = req.body;
-  
+  const loggedInEmp = req.body;  
   if(mongoose.connection.readyState===1)
   {//*********************start mongoose.connection.readyState if************************ */
-
       if(loggedInEmp.employeeId===process.env.ADMIN_UID && loggedInEmp.passWord===process.env.ADMIN_PWD)//*************************  uid and pwd admin if start*/
-      {
-                 
-
+      {                 
                   empModel.countDocuments({},function (err,noOfDocs){
                           if(noOfDocs>0)
                           {
@@ -50,36 +42,24 @@ function empLoggedInRouter(req, res) {
                           }
                   }
                   );
-                  
-                 
-
 
       }//*************************  uid and pwd admin if end*/
       else  //*************************  uid and pwd admin else start*/
       {
 
                       empModel.countDocuments({},function (err,noOfDocs){//**********   start empModel.countDocuments ***************  //
-
-                      
-                        
+                                              
                           if(noOfDocs>0)
-                          {
-                          
+                          {                          
                             empModel
                               .findOne({ id: loggedInEmp.employeeId }).select("-_id -id -emailSent -emailConfirmed -confirmationToken -createdAt -updatedAt -__v")                              
-                              .then((emps) => {
-                                
+                              .then((emps) => {                                
                                 const PWDEXISTS=emps.checkPassword(loggedInEmp.passWord);
-
                                 if(!PWDEXISTS)
-                                  res.status(400).json({empsError: "Incorrect Password",});
-                                  
-                                if (emps && emps.role === "User" && PWDEXISTS) {
-                                 
-                                  emps["pwdHash"]=null;
-                                                                   
-                                    res.json({ emps,role:"User",refreshToken:emps.getEmp_JSON_WEB_TOKEN(),SUPER_ADMIN:false, });                                                                      
-                                   
+                                  res.status(400).json({empsError: "Incorrect Password",});                                  
+                                if (emps && emps.role === "User" && PWDEXISTS) {                                 
+									emps["pwdHash"]=null;                                                                   
+                                    res.json({ emps,role:"User",refreshToken:emps.getEmp_JSON_WEB_TOKEN(),SUPER_ADMIN:false, });                                                                                                         
                                 } else if (emps && (emps.role === "Admin" || emps.role === "Super") && PWDEXISTS) {  
                                   const role= emps.role;
                                   const adminEmp=emps;                                  
@@ -89,38 +69,31 @@ function empLoggedInRouter(req, res) {
                                       let loggedInEmpObj=allEmps.find((obj,index)=>
                                       {
                                         if( parseInt(obj.id)===parseInt(loggedInEmp.employeeId)   ) 
-                                        {  
-                                                                                 
+                                        {                                                                                  
                                           return allEmps[index];
                                         }
                                       });
-
                                       const tempRefreshToken=adminEmp.getAdmin_JSON_WEB_TOKEN(loggedInEmp.employeeId,loggedInEmpObj.emailSent,loggedInEmpObj.emailConfirmed,loggedInEmpObj.confirmationToken);                                    
-                                      res.json({ emps,role:role,refreshToken:tempRefreshToken,SUPER_ADMIN:false, });
-                                      
+                                      res.json({ emps,role:role,refreshToken:tempRefreshToken,SUPER_ADMIN:false, });                                      
                                     })
-                                    .catch((err) => {
-                                      
+                                    .catch((err) => {                                      
                                       res.status(400).json({
                                         empsError: "No emps data",
                                       });
                                     });
                                 }
                                 if (!emps)
-                                {
-                                  
+                                {                                  
                                   res.status(400).json({
                                     empsError: "Emp not found",
                                   });
                                 }
                               })
-                              .catch((err) => {
-                                                                
+                              .catch((err) => {                                                               
                                 res.status(400).json({
                                   empsError: "Emp not found",
                                 });
                               });
-
                             }
                             else
                             {                              
@@ -128,21 +101,15 @@ function empLoggedInRouter(req, res) {
                                 empsError: "No Records in database",
                               });
                             }
-
                       })//**********   end empModel.countDocuments ***************  //
-
         }//********    uid and pwd admin else end */
-
   }//******************end mongoose.connection.readyState if************************** */
   else
-  {//*********************start mongoose.connection.readyState else************************ */
-    
+  {//*********************start mongoose.connection.readyState else************************ */    
     res.status(400).json({
       empsError: "Unable to Connect to Mongodb",
     });
   }//*********************end mongoose.connection.readyState else************************ */
-
-
 }
 
 export default empLoggedInRouter;
