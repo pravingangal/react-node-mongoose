@@ -12,24 +12,22 @@ function empLoggedinSendEmailRouter(req, res) {
   
   if(mongoose.connection.readyState===1)
   {//*********************start mongoose.connection.readyState if************************ */
-
       
     empModel.countDocuments({},function (err,noOfDocs)
     {//**********   start empModel.countDocuments ***************  //
                             
         if(noOfDocs>0)
           {
-            
-            let empsSendEmail=[];
-                         
+                     
               empMailer(empLoginSendEmailData)
-              .then((response) => {
-                             
+              .then((response) => {                            
                 res.status(200).send(response);         
               })
-              .catch((err) => {                                        
-              });                        
-                                       
+              .catch((err) => {  
+                res.status(400).json({
+                     empsError: "Internal Server Err..",
+                 });                                       
+              });                                                               
           }
           else
           {                                       
@@ -42,14 +40,11 @@ function empLoggedinSendEmailRouter(req, res) {
 
   }//******************end mongoose.connection.readyState if************************** */
   else
-  {//*********************start mongoose.connection.readyState else************************ */
-    
+  {//*********************start mongoose.connection.readyState else************************ */    
     res.status(400).json({
-      empsError: "Unable to Connect to Mongodb",
+      empsError: "Unable to Connect to Mongodb...",
     });
   }//*********************end mongoose.connection.readyState else************************ */
-
-
 }
 
 export default empLoggedinSendEmailRouter;
