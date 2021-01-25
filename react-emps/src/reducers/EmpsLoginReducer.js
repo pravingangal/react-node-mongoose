@@ -3,8 +3,6 @@ import {
   EMP_LOGGED_OUT,
   EMP_LOGGED_ERR,
 } from "../utilities/Types";
-
-
 const initState = {  
   empsArr: [],
   loading: true,
@@ -14,13 +12,11 @@ const initState = {
   empValidated:false,
   SUPER_ADMIN:false,
 };
-
 const EmpsLoginReducer = (state = initState, action = {}) => {
-  const newState = { ...state };
+const newState = { ...state };
  
   switch (action.type) {
-    case EMP_LOGGED_IN:
-      
+    case EMP_LOGGED_IN:      
       if (action.dataLoad) {       
         return {
           ...state,                  
@@ -45,7 +41,6 @@ const EmpsLoginReducer = (state = initState, action = {}) => {
         empValidated:false,
         SUPER_ADMIN:false
       };
-
     case EMP_LOGGED_ERR:
       return {
         ...state,        
@@ -57,10 +52,8 @@ const EmpsLoginReducer = (state = initState, action = {}) => {
         empValidated:false,
         SUPER_ADMIN:false
       };
-
     default:
       return newState;
   }
 };
-
 export default EmpsLoginReducer;
