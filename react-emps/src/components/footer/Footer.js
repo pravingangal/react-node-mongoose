@@ -6,8 +6,7 @@ const Footer = ({ empName }) => {
     <footer>
       <div className="container-fluid ">
         <div className="footerDiv">
-          {" "}
-        
+          {" "}        
           <span>Home</span> &nbsp; &nbsp;<span>©2020 </span>&nbsp;&nbsp;
               <span>Corp &amp; Co.</span>
         </div>
