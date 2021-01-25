@@ -1,11 +1,10 @@
 import React from "react";
 import "./EmpsSpinner.css"; 
 
-const EmpsSpinner = ({ spinType }) => {    
+const EmpsSpinner = ({ spinType,msg }) => {    
     return (
-        <div className={"marginL40p spin"+spinType}></div>
+       <React.Fragment> <span>{msg?msg:""}</span><div className={"marginL40p spin"+spinType}></div></React.Fragment>
     );
   };
   
-  
-  export default EmpsSpinner;
+export default EmpsSpinner;
