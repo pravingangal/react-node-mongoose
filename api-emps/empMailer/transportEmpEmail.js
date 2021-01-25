@@ -1,11 +1,15 @@
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import ejs from "ejs";
 
 
-function getEmp_Confirmation_Token(valObj,emailKey) {
+function getEmp_Confirmation_Token(valObj) {
     return jwt.sign(
       {
-        email: valObj[emailKey],
+        email: valObj["Email"],
+        EmpId:valObj["EmpId"],
+        EmpName:valObj["EmpName"],
         confirmed: false,
         emailSent: true,
       },  
@@ -17,10 +21,10 @@ function getEmp_Confirmation_Token(valObj,emailKey) {
   };
   
 
-async function transportEmpEmail(valObj,emailKey){
+async function transportEmpEmail(valObj){
 
   
-  const toEmp=valObj[emailKey]; 
+  const toEmp=valObj["Email"]; 
   const from = process.env.MAILER_FROM;
   const newValObj=Object.assign({},valObj);  
   
@@ -35,37 +39,81 @@ async function transportEmpEmail(valObj,emailKey){
     
   });
 
-  const confirmationToken=getEmp_Confirmation_Token(valObj,emailKey); 
+  const confirmationToken=getEmp_Confirmation_Token(valObj);  
   const empMailOptions = {
     from,
     to: toEmp,
-    subject: "Welcome..!!!",
-    text: `Welcome to Corp. Pl confirm yr email....
-    URL : http://localhost:3000/confirm/${confirmationToken}`,
+    subject: "Welcome..!!!",   
     html: "",
+    attachments:[{filename:"welcome.jpg",path:"templates/welcome.jpg",cid:"welcome"}]
   };
 
 
 
   return new Promise((resolve, reject) => {
-                                              emailTransport.sendMail(empMailOptions, (err, info) => {
 
-                                                if (err) {                                                                                                   
-                                                  newValObj["emailErr"]=err.errno + "-"+ err.code;
+    fs.readFile("templates/emp-welcome-email.ejs","utf8",function(fserr,emailEJS){
+      if(fserr)
+      {
+        
+
+                                                  newValObj["emailErr"]="File err";
                                                   newValObj["emailInfo"]=null;
                                                   newValObj["emailSent"]=false;
                                                   newValObj["emailConfirmed"]=false;  
                                                   newValObj["confirmationToken"]=null;                                               
                                                   resolve(newValObj);
-                                                } else {   
-                                                  newValObj["emailErr"]=null;
-                                                  newValObj["emailInfo"]=info.response;
-                                                  newValObj["emailSent"]=true;
-                                                  newValObj["emailConfirmed"]=false;  
-                                                  newValObj["confirmationToken"]= confirmationToken                                                                                          
-                                                  resolve(newValObj);
-                                                }
-                                              });
+      }
+      else
+      {
+        let ejsErrFlag=false;
+       try{
+            empMailOptions.html=ejs.render(emailEJS,{empName:valObj["EmpName"],confirmationToken:confirmationToken});
+          }
+       catch(ejsHtmlErr)
+          {
+            ejsErrFlag=true;
+          }
+       
+                                            
+                              if(!ejsErrFlag)
+                              {
+                                    emailTransport.sendMail(empMailOptions, (err, info) => {
+
+                                                  if (err) {                                                                                                   
+                                                    newValObj["emailErr"]=err.errno + "-"+ err.code;
+                                                    newValObj["emailInfo"]=null;
+                                                    newValObj["emailSent"]=false;
+                                                    newValObj["emailConfirmed"]=false;  
+                                                    newValObj["confirmationToken"]=null;                                               
+                                                    resolve(newValObj);
+                                                  } else {   
+                                                    newValObj["emailErr"]=null;
+                                                    newValObj["emailInfo"]=info.response;
+                                                    newValObj["emailSent"]=true;
+                                                    newValObj["emailConfirmed"]=false;  
+                                                    newValObj["confirmationToken"]= confirmationToken                                                                                          
+                                                    resolve(newValObj);
+                                                  }
+                                                });
+                                }
+                                else
+                                {
+                                  newValObj["emailErr"]="Internal Server(html template) Err..";
+                                  newValObj["emailInfo"]=null;
+                                  newValObj["emailSent"]=false;
+                                  newValObj["emailConfirmed"]=false;  
+                                  newValObj["confirmationToken"]=null;                                               
+                                  resolve(newValObj);
+                                }               
+
+
+
+
+
+      }
+    })
+                                             
                                         }
                     );
 }
