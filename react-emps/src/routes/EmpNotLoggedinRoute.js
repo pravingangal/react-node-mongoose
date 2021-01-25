@@ -17,13 +17,11 @@ const EmpNotLoggedinRoute = ({ empValidated, component: Component, ...rest }) =>
   />
 );
 }
-
 EmpNotLoggedinRoute.propTypes = {
   component: PropTypes.object.isRequired,
   empValidated: PropTypes.bool.isRequired,
   
 };
-
 function mapStateToProps(state) {
   return { empValidated: state.EmpsLoginReducer.empValidated,
   };
