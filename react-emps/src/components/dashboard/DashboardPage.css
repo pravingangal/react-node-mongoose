@@ -1,3 +1,38 @@
+.clsErr {
+ color:red;
+}
+table{
+  overflow:auto;   
+}
+.dashBoardSpinner
+{
+  position:absolute;
+  top:200px;
+}
+.captionDiv:before{
+ content: attr(table-header); 
+ display: block;
+ margin-top:2%;
+ width: 74%;
+ padding: 1px;
+ top:130px;
+ left:45%;
+ position:absolute;
+ font-weight:bold;
+ font-size:15px;
+}
+.captionDiv:after{
+  content: attr(err-header); 
+  display: block;
+  margin-top:5%;
+  width: 74%;
+  color:red;
+  top:110px;
+  left:40%;
+  font-size:13px;
+  position:absolute;
+  font-weight:bold;
+ }
 .selAllSmall
 {
  display:none !important;  
@@ -18,42 +53,34 @@
 .marginTop
 {
   margin-top:10% !important;
-  overflow:auto;
+  overflow:hidden;
   background:rgb(212, 204, 204);
   margin:0px;
   padding:0px;
  
 }
-
 table.tblsuper td span{
   cursor: help;
 }
-
-
 .tblflexSuper {
   display: flex;
   flex-direction: column;
   margin-top:5%;
   width:100%;
 }
-
 .tblflexSuper thead {
  color: rgb(163, 68, 73); 
  background: #53f088;
  font-size:10px;
- font-weight: 700;  
- 
+ font-weight: 700;   
 }
-
 .tblflexSuper thead tr,
 .tblflexSuper tbody tr {
   display: flex;    
 }
-
 .tblflexSuper tbody tr {   
   background:  rgb(165, 163, 163);
 }
-
 .tblflexSuper thead tr th,
 .tblflexSuper tbody tr td {
   display: flex;
@@ -68,29 +95,26 @@ table.tblsuper td span{
  word-break: break-word;
   font-size:12px;
   color:black;
-  font-weight: 700;  
-  
-  
+  font-weight: 700;     
 }
-
 .tblflexSuper tbody tr td  .btn,div.custom-checkbox > button.btn {
   word-break: break-word;
   font-size:9px;
   color:#000000;
-  font-weight: 700;     
-  
+  font-weight: 700;       
 }
-
 .check{
   display:none !important;
 }
-
 .smButton2
   {
     display:none !important;
   }
-
 @media screen  and (max-width: 890px) {
+  .captionDiv:after{
+    top:150px;
+    left:30%;
+  }
   .smButton2
   {
     display:inline-block !important;
@@ -99,7 +123,6 @@ table.tblsuper td span{
       top:1%;
       left:1%;
   }
-
   .paddingSM
   {   
    padding-top:3% !important;
@@ -111,8 +134,7 @@ table.tblsuper td span{
     background:#53f088;
     color:rgb(163, 68, 73);
     padding:2%;
-    font-weight:600;
-    
+    font-weight:600;    
   }
   .selAllSmall
   {
@@ -158,9 +180,7 @@ table.tblsuper td span{
   .tblsuper tbody {
   
     height: 40vh !important; 
-  }
-
-  
+  }  
 .marginTop
 {
   margin-top:25% !important;
@@ -168,9 +188,6 @@ table.tblsuper td span{
 }
 
 }
-
-
-
 @media screen and (min-width:320px) and (max-width: 480px) {
   .marginTop
   {
@@ -178,14 +195,8 @@ table.tblsuper td span{
   }
   
 }
-
 .tblsuper tbody {
   
   height: 20vh; 
  width:100%;
-}
-caption{
-  font:30px bold;
-  text-align: center;
- 
 }
