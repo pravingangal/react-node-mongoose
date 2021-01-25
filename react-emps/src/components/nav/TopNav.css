@@ -8,16 +8,21 @@
   color: white !important;
   font-weight: bold;
 }
-
 .navbar-link span{
   cursor: grab;
 }
-
-
 .fixed-header {
   position: fixed !important;
   top: 0;
   left: 0;
   width: 100%; 
   z-index: 1000;
+}
+.showEmp
+{
+  display:block !important;
+}
+.showEmailVerifyingEmp
+{
+  display:none !important;
 }
