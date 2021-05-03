@@ -12,16 +12,18 @@ import NotFoundPage from "./notfound/NotFoundPage";
 import EmpConfirmationPage from "./components/empconfirmation/EmpConfirmationPage";
 import "./App.css";
 
+
+
 class App extends Component {
   constructor(props) {    
-    super();        
+    super();       
   }
- 
+   
   render() {
     const { history } = this.props; 
     return (
       <div className="container-fluid" >
-         <TopNav    />       
+         <TopNav />                    
            <Router >
            <Switch>
 
@@ -33,13 +35,15 @@ class App extends Component {
                 component={HomePage}
             /> 
 
+
               <EmpLoggedinRoute   
               location={this.props.location}
-              history={history}   
+              history={history}                
               path="/dashboard"
               exact
               component={DashboardPage}
               /> 
+
 
             <EmpNotLoggedinRoute   
                 location={this.props.location}
@@ -57,6 +61,7 @@ class App extends Component {
                 component={UploadXlsToDBase}
             /> 
 
+          
             <Route   
                 location={this.props.location}
                 history={history}   
@@ -64,6 +69,7 @@ class App extends Component {
                 exact
                 component={EmpConfirmationPage}
             />        
+         
 
              <Route component={NotFoundPage} />
 
