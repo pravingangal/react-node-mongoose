@@ -18,11 +18,11 @@ let empDb = null;
 dbConnect()
   .then((db) => {
     empDb = db;
-    console.log("db connected ...")
+    console.log("db connected ...");
   })
   .catch((err) => {
     empDb = null;
-    console.log("db connection err...")
+    console.log("db connection err...");
   });
 
 app.use("/empApi", dispatchRouter);
