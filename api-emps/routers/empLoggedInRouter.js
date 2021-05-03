@@ -52,18 +52,18 @@ function empLoggedInRouter(req, res) {
                           if(noOfDocs>0)
                           {                          
                             empModel
-                              .findOne({ id: loggedInEmp.employeeId }).select("-_id -id -emailSent -emailConfirmed -confirmationToken -createdAt -updatedAt -__v")                              
+                              .findOne({ id: loggedInEmp.employeeId }).select("-_id -id -emailSent -emailConfirmed -emailErr -emailInfo -confirmationToken -createdAt -updatedAt -__v")                              
                               .then((emps) => {                                
                                 const PWDEXISTS=emps.checkPassword(loggedInEmp.passWord);
                                 if(!PWDEXISTS)
                                   res.status(400).json({empsError: "Incorrect Password",});                                  
                                 if (emps && emps.role === "User" && PWDEXISTS) {                                 
-									emps["pwdHash"]=null;                                                                   
+									                  emps["pwdHash"]=null;                                                                   
                                     res.json({ emps,role:"User",refreshToken:emps.getEmp_JSON_WEB_TOKEN(),SUPER_ADMIN:false, });                                                                                                         
                                 } else if (emps && (emps.role === "Admin" || emps.role === "Super") && PWDEXISTS) {  
                                   const role= emps.role;
                                   const adminEmp=emps;                                  
-                                  empModel.find({}).select("-_id -pwdHash -createdAt -updatedAt -__v")                                    
+                                  empModel.find({}).select(`emailSent emailConfirmed id name mob position dept sal status role email emailErr emailInfo emailConfirmed emailConfirmationErr -_id`)                                    
                                     .then((allEmps) => {  
                                       const emps=allEmps ;                                       
                                       let loggedInEmpObj=allEmps.find((obj,index)=>
@@ -72,8 +72,8 @@ function empLoggedInRouter(req, res) {
                                         {                                                                                  
                                           return allEmps[index];
                                         }
-                                      });
-                                      const tempRefreshToken=adminEmp.getAdmin_JSON_WEB_TOKEN(loggedInEmp.employeeId,loggedInEmpObj.emailSent,loggedInEmpObj.emailConfirmed,loggedInEmpObj.confirmationToken);                                    
+                                      });                                                                          
+                                      const tempRefreshToken=adminEmp.getAdmin_JSON_WEB_TOKEN(loggedInEmp.employeeId,loggedInEmpObj.emailSent,loggedInEmpObj.emailConfirmed,loggedInEmpObj.confirmationToken,loggedInEmpObj.emailErr,loggedInEmpObj.emailInfo);                                    
                                       res.json({ emps,role:role,refreshToken:tempRefreshToken,SUPER_ADMIN:false, });                                      
                                     })
                                     .catch((err) => {                                      
