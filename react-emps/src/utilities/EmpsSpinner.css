@@ -1,0 +1,65 @@
+.spinSM {
+  border: 2px solid #f8ad8f;
+  border-radius: 50%;
+  border-top: 2px solid #e94b0d;
+  background:#eceaea;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: goRound 1s linear infinite;
+  animation: goRound 1s linear infinite;
+}
+.spinMD {
+  border: 4px solid #f8ad8f;
+  border-radius: 50%;
+  border-top: 4px solid #e94b0d;
+  background:#eceaea;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: goRound 1s linear infinite;
+  animation: goRound 1s linear infinite;
+}
+.spinLG {
+  border: 4px solid #4e200d;
+  border-radius: 55%;
+  border-top: 4px solid #e94b0d;
+  background:#eceaea;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: goRound 1s linear infinite;
+  animation: goRound 1s linear infinite;
+}
+.marginL40p {
+  margin-left: 40%;
+}
+@-webkit-keyframes goRound {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  5% {
+    -webkit-transform: rotate(20deg);
+  }
+  10% {
+    -webkit-transform: rotate(40deg);
+  }
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes goRound {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
