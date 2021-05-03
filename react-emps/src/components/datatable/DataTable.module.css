@@ -1,0 +1,119 @@
+
+.clsTableErr {
+  color:red;
+  display:inline-block !important; 
+ }
+ .clsTableNoErr { 
+  display:none !important;
+ }
+ .clsTableInfo {
+  color:green;
+  display:inline-block !important; 
+ }
+ .clsTableNoInfo { 
+  display:none !important;
+ }
+ .tblCenter{
+   text-align: center;
+   margin-left:5%;  
+ }
+ 
+ .tblTopMargin
+ {
+   margin-top:1%;
+ }
+ .tableSmButton
+ {  
+   position:relative;
+   top:5px;
+ }
+ .tableLabelPad6
+ {
+   padding-top:6%; 
+  
+ }
+ 
+ .tblResp
+   {         
+     width:auto;
+     margin-top:5%;
+     max-height:400px;
+     overflow-y:auto;
+     overflow-x:hidden;    
+   }
+   .tblResp tr
+   {
+     font-size:15px;
+     text-align: center;
+   }
+   .tblResp tr:nth-child(even)
+   {
+     background:rgba(245, 244, 244, 0.8);
+   }
+ .tblFlexContainer
+ {
+   display: flex;
+   flex-wrap: wrap;  
+   text-align: center;
+   justify-content: center;
+ }
+ thead th
+ {	
+   vertical-align:text-top;	  
+   font-size:15px;  
+   border-collapse: separate;
+   margin:3px;
+   position:sticky;
+   top:0px;
+   z-index:2000;
+   opacity:1;
+   background: #f3ceb5;   
+   outline:1px solid white;
+ }
+
+ 
+ @media (max-width: 800px) 
+ {
+   .tableLabelPad6
+   {
+     padding-top:0px; 
+   }
+   .tableMarginTop
+   {
+     margin-top:4%;
+   }
+   .tblResp
+   {
+     width:100%; 
+     margin-top:10%;   
+   }
+ .tblResp td
+     {
+     display: flex;
+     flex-wrap: wrap;
+     flex-direction:column;
+     }
+ .tblResp th:not(:first-child)
+     {
+       display:none;
+     }    
+  .theadNoShow
+  {
+    display:none;
+  }
+  
+ .tblResp tbody tr td:before 
+     {
+           display: flex;
+           align-items: center; 
+           margin:-10px -10px 10px -10px;		
+           content: attr(col-header);                
+           color:#702f04;
+           font-weight: 600;
+           background: #f3ceb5;
+           width:auto;
+           text-align:center;
+           padding:1%;		
+     }
+    
+ }
