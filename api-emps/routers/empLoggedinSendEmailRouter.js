@@ -9,7 +9,6 @@ function empLoggedinSendEmailRouter(req, res) {
 
   const empLoginSendEmailData = req.body;
   
-  
   if(mongoose.connection.readyState===1)
   {//*********************start mongoose.connection.readyState if************************ */
       
@@ -17,10 +16,9 @@ function empLoggedinSendEmailRouter(req, res) {
     {//**********   start empModel.countDocuments ***************  //
                             
         if(noOfDocs>0)
-          {
-                     
+          {                     
               empMailer(empLoginSendEmailData)
-              .then((response) => {                            
+              .then((response) => {                                     
                 res.status(200).send(response);         
               })
               .catch((err) => {  
