@@ -10,12 +10,17 @@ class newEmp {
       status: "",
       role: "",
       email: "",
-      confirmationToken:""
+      confirmationToken:"",
+      emailErr:"",
+      emailInfo:""
+
     };
   }
 
   createRecord(row) {
+    
     Object.keys(this.EmpRecord).map((val, index) => {
+
       if (
         val === "email" &&
         Object.keys(row.getCell(index + 1).value).includes("text")
@@ -23,7 +28,12 @@ class newEmp {
         //takes care of email saved as href in xls
         this.EmpRecord[val] = row.getCell(index + 1).value["text"];
       } else this.EmpRecord[val] = row.getCell(index + 1).value;
+
+      if (val === "emailErr"  || val === "emailInfo") this.EmpRecord[val] = null;
+
     });
+
+   
 
     return this.EmpRecord;
   }
