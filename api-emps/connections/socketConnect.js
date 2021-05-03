@@ -6,10 +6,12 @@ async function msgSocketConnect(httpServer) {
     reconnection: true,
     cookie: false,
   });
-
+  global.ioMsgSocket=msgSocket;
+  
   msgSocket.on("connect", (msgSocket) => {
-    empDataUpload(msgSocket);
+    empDataUpload(msgSocket);      
   });
+  
 }
 
 export default msgSocketConnect;
