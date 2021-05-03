@@ -3,7 +3,9 @@ import empModel from "../empModel/empModel";
 import newEmp from "../newEmpModel/newEmpModel";
 
 function empDataUpload(msgSocket) {
+
   msgSocket.on("message", (data) => {
+    
     const workbook = new Excel.Workbook();
     let emptyCellFlag = false;
 
@@ -49,7 +51,6 @@ function empDataUpload(msgSocket) {
               if (rowsIterated > 1 && !emptyCellFlag && colNumber === 9) {
                 const newEmpRecord = new empModel(_newEmp.createRecord(row));
                 //default password...to be reset by emp
-
                 
                 newEmpRecord.encryptPassword(process.env.DB_DEFAULT_PASS);
 
@@ -101,12 +102,15 @@ function empDataUpload(msgSocket) {
       .catch((err) => {
         msgSocket.emit("FromEMPAPI_Err", "Error reading XLS File..." + err);
       });
-  });
+  });//******** */
+
 
   msgSocket.on("disconnect", (data) => {
     msgSocket.emit("FromEMPAPI_Err", "Server diconnected..." + data);
   });
-}
+
+  return true;
+} 
 
 export default empDataUpload;
 
