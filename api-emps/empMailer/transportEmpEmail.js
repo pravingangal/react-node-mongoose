@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import ejs from "ejs";
-
+import empModel from "../empModel/empModel";
 
 function getEmp_Confirmation_Token(valObj) {
     return jwt.sign(
@@ -19,11 +19,31 @@ function getEmp_Confirmation_Token(valObj) {
       }
     );
   };
-  
 
-async function transportEmpEmail(valObj){
 
+  async function updateDBase(emailRecord)
+  {
+      const queryId={id:emailRecord.EmpId};
+      const updateValues={$set:{emailErr:emailRecord.emailErr,
+                          emailInfo:emailRecord.emailInfo,
+                          emailSent:emailRecord.emailSent,
+                          emailConfirmed:emailRecord.emailConfirmed,
+                          confirmationToken:emailRecord.confirmationToken}
+                        }; 
+                        
+     
+        await empModel.updateOne(queryId,updateValues,(err,res)=>
+        {
+            if(err) 
+              return(err)
+            else 
+              return(res);
+        })
+     
+  }
   
+  async function transportEmpEmail(valObj){
+    
   const toEmp=valObj["Email"]; 
   const from = process.env.MAILER_FROM;
   const newValObj=Object.assign({},valObj);  
@@ -48,23 +68,22 @@ async function transportEmpEmail(valObj){
     attachments:[{filename:"welcome.jpg",path:"templates/welcome.jpg",cid:"welcome"}]
   };
 
-
-
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => 
+  {
 
     fs.readFile("templates/emp-welcome-email.ejs","utf8",function(fserr,emailEJS){
       if(fserr)
       {
-        
-
                                                   newValObj["emailErr"]="File err";
                                                   newValObj["emailInfo"]=null;
                                                   newValObj["emailSent"]=false;
                                                   newValObj["emailConfirmed"]=false;  
-                                                  newValObj["confirmationToken"]=null;                                               
+                                                  newValObj["confirmationToken"]=null;
+                                                  const updateRes =  updateDBase(newValObj);
+                                                                                                                                           
                                                   resolve(newValObj);
       }
-      else
+      else //**************start main else */
       {
         let ejsErrFlag=false;
        try{
@@ -74,25 +93,28 @@ async function transportEmpEmail(valObj){
           {
             ejsErrFlag=true;
           }
-       
-                                            
-                              if(!ejsErrFlag)
-                              {
+                        if(!ejsErrFlag)
+                              {                                
                                     emailTransport.sendMail(empMailOptions, (err, info) => {
-
+                                     
                                                   if (err) {                                                                                                   
                                                     newValObj["emailErr"]=err.errno + "-"+ err.code;
                                                     newValObj["emailInfo"]=null;
                                                     newValObj["emailSent"]=false;
                                                     newValObj["emailConfirmed"]=false;  
-                                                    newValObj["confirmationToken"]=null;                                               
+                                                    newValObj["confirmationToken"]=null; 
+                                                    const updateRes =  updateDBase(newValObj);
+                                                                                                 
                                                     resolve(newValObj);
                                                   } else {   
                                                     newValObj["emailErr"]=null;
                                                     newValObj["emailInfo"]=info.response;
                                                     newValObj["emailSent"]=true;
                                                     newValObj["emailConfirmed"]=false;  
-                                                    newValObj["confirmationToken"]= confirmationToken                                                                                          
+                                                    newValObj["confirmationToken"]= confirmationToken
+                                                   
+                                                    const updateRes =  updateDBase(newValObj);
+                                                                                                                                             
                                                     resolve(newValObj);
                                                   }
                                                 });
@@ -103,20 +125,20 @@ async function transportEmpEmail(valObj){
                                   newValObj["emailInfo"]=null;
                                   newValObj["emailSent"]=false;
                                   newValObj["emailConfirmed"]=false;  
-                                  newValObj["confirmationToken"]=null;                                               
+                                  newValObj["confirmationToken"]=null; 
+                                  const updateRes =  updateDBase(newValObj);                                                                               
                                   resolve(newValObj);
-                                }               
-
-
-
-
-
-      }
+                                }
+                         
+      }//***end main else*********** */
     })
-                                             
-                                        }
-                    );
-}
+          
+  }//************   return new Promise((resolve, reject)   end  */
+
+                    );//************   return new Promise((resolve, reject)   end  */
+
+                  
+};
 
 
 export default transportEmpEmail;
