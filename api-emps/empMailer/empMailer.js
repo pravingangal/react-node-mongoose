@@ -1,14 +1,13 @@
 import nodemailer from "nodemailer";
 import transportEmpEmail from "./transportEmpEmail";
 
-
 async function empMailer(empLoginSendEmailData) {
-
-  const emailArr= empLoginSendEmailData.map(async empValObj=>{
-    const response=await transportEmpEmail(empValObj);
-    return response;
-  }
-    );
+  const emailArr= empLoginSendEmailData.map(
+                                              async empValObj=>{                                                                                                                   
+                                                                const response=await transportEmpEmail(empValObj);                                                                 
+                                                                return response;
+                                                              }
+                                          );
 
     return await Promise.all(emailArr);   
   
