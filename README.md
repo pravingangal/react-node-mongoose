@@ -28,6 +28,8 @@ This repo contains all required files in two folders - react-emps and api-emps a
 
 > Install jwt-decode : For decoding jwt Token
 
+> Install jsonwebtoken : For creating jwt Token
+
 > Install socket.io : For 2-way node server-API  and APP communication
 
 > Get socket : import socketIOClient from "socket.io-client";
