@@ -2,7 +2,7 @@ import React from "react";
 import "./EmpConfirmationPage.css";
 import JumboTronComp from "../../codesnippets/JumboTronComp";
 import EmpsSpinner from "../../utilities/EmpsSpinner";
-import {checkAPIServerConnection} from "../../apiemps_serverops/FetchData";
+import CheckAPIServerConnection from "../../apiemps_serverops/FetchData";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import store from "../../store/store";
@@ -14,17 +14,16 @@ class EmpConfirmationPage extends React.Component {
 
   state = { empEmailConfirmed: false,apiURL:"http://127.0.0.1:4000/"};
   
-  componentDidMount() { 
+  componentDidMount() {
   let JQUERY=$.noConflict();
   let navElem=JQUERY("#emailConfirmDiv").prev("nav");
   let pEmp=JQUERY(navElem).find("p.navbar-text.showEmp");
-  let pEmail=JQUERY(navElem).find("p.navbar-text.showEmailVerifyingEmp");
-
+  let pEmail=JQUERY(navElem).find("p.navbar-text.showEmailVerifyingEmp");  
   pEmp.addClass("hideP");
   pEmail.addClass("showP");
   this.setState({...this.state});
 
-  checkAPIServerConnection(this.state.apiURL)
+  CheckAPIServerConnection(this.state.apiURL)
   .then((res) => 
   {
         if (res.status === 200) 
