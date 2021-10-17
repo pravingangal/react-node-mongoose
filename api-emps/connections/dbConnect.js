@@ -1,20 +1,17 @@
-import mongoose from "mongoose";
+import io from "socket.io";
+import empDataUpload from "../empUploads/empDataUpload";
 
-async function dbConnect() {
-
-
-      return  new Promise((resolve, reject) => {
-
-        mongoose.connect(process.env.DB_HOST_URL, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-          useCreateIndex: true,
-        }).then((db)=> resolve(db))
-        .catch((err)=>reject(null))
-
-      });
-     
-
+async function msgSocketConnect(httpServer) {
+  let msgSocket = io(httpServer, {
+    reconnection: true,
+    cookie: false,
+  });
+  global.ioMsgSocket=msgSocket;
+  
+  msgSocket.on("connect", (msgSocket) => {
+    empDataUpload(msgSocket);      
+  });
+  
 }
 
-export default dbConnect;
+export default msgSocketConnect;
