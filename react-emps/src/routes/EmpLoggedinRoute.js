@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const EmpLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
+const empLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
  return (    
   <Route
     {...rest}
@@ -17,7 +17,7 @@ const EmpLoggedinRoute = ({ empValidated, component: Component, ...rest }) => {
   />
 );
 }
- EmpLoggedinRoute.propTypes = {
+ empLoggedinRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.object.isRequired,PropTypes.func.isRequired]),
   empValidated: PropTypes.bool.isRequired,
 };
@@ -26,4 +26,4 @@ function mapStateToProps(state) {
   return { empValidated: state.EmpsLoginReducer.empValidated,};
 }
 
-export default connect(mapStateToProps)(EmpLoggedinRoute);
+export default connect(mapStateToProps)(empLoggedinRoute);
