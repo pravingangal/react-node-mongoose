@@ -1,9 +1,7 @@
-
 import {EMP_EMAIL_CONFIRMED, EMP_EMAIL_CONFIRMATION_ERR} from "../utilities/Types";
-import { EmpApi } from "../apiemps_serverops/EmpApi";
+import EmpApi from "../apiemps_serverops/EmpApi";
 
-    
-  export const empConfirmedEmail = (emps) => {  
+const empConfirmedEmail = (emps) => {
     return {
       type:   EMP_EMAIL_CONFIRMED,    
       dataLoad: emps,
