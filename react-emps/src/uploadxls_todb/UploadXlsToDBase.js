@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import socketIOClient from "socket.io-client";
-import {checkAPIServerConnection} from "../apiemps_serverops/FetchData";
+import CheckAPIServerConnection from "../apiemps_serverops/FetchData";
 import "./UploadXlsToDBase.css";
 
 class UploadXlsToDBase extends Component { 
@@ -16,12 +16,12 @@ constructor(props) {
   this.socket = null;  
 }
 
-checkAPIServerConnection = () => {
+CheckAPIServerConnection = () => {
   return fetch(this.state.apiURL);
 };
 
 uploadXLS = () => {
-  checkAPIServerConnection(this.state.apiURL)
+  CheckAPIServerConnection(this.state.apiURL)
     .then((res) => {
       if (res.status === 200) {
         console.log("API Server is up and running......");
