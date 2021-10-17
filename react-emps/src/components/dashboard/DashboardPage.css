@@ -1,29 +1,20 @@
-
 .clsErr {
- color:red;
- display:inline-block !important; 
+  color: red;
+  display: inline-block !important;
 }
-.marginTop
-{
-  margin-top:10% !important; 
-  background:rgb(212, 204, 204);
-  padding:0px; 
-}
-
-@media screen  and (max-width: 890px) {
-
-.marginTop
-{
-  margin-top:25% !important;
- 
+.marginTop {
+  margin-top: 10% !important;
+  background: rgb(212, 204, 204);
+  padding: 0px;
 }
 
-}
-@media screen and (min-width:320px) and (max-width: 480px) {
-
-  .marginTop
-  {
-    margin-top:35% !important;
+@media screen and (max-width: 890px) {
+  .marginTop {
+    margin-top: 25% !important;
   }
-  
+}
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .marginTop {
+    margin-top: 35% !important;
+  }
 }
