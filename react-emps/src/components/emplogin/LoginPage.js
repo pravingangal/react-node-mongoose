@@ -6,10 +6,8 @@ import { connect } from "react-redux";
 import { empLoginAction } from "../../actions/EmpLoginAction";
 import EmpToolTip from "../../utilities/ToolTip";
 import EmpsSpinner from "../../utilities/EmpsSpinner";
-import {checkAPIServerConnection} from "../../apiemps_serverops/FetchData";
-import store from "../../store/store";
-import {empLoggedErr} from "../../actions/EmpLoginAction";
-
+import axios from '../../axios-inst';
+import withErrorCatcher from '../../hordercomp/withErrorCatcher/withErrorCatcher';
 
 class LoginPage extends Component { 
   constructor(props)
@@ -18,10 +16,8 @@ class LoginPage extends Component {
     this.state = {
       formData: { employeeId:localStorage.employeeId?localStorage.employeeId:"", passWord: localStorage.passWord?localStorage.passWord:"" },         
       formErrors:{ employeeId: "", passWord: "" }, 
-      submitFlag:false,
-      empLoginErrors:[],      
-      loading:false,
-      isChecked:localStorage.isChecked?localStorage.isChecked:false,
+      submitFlag:false,     
+      isChecked: localStorage.isChecked ? localStorage.isChecked : false,     
     };
     this.apiURL="http://127.0.0.1:4000/";  
   }
@@ -38,7 +34,7 @@ class LoginPage extends Component {
       });
 
   }
-  UNSAFE_componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps) {   
   if(nextProps.empValidated) 
   {
 	   this.setState({
@@ -46,10 +42,8 @@ class LoginPage extends Component {
       formData: {        
         employeeId:localStorage.employeeId?localStorage.employeeId:"",
         passWord:localStorage.passWord?localStorage.passWord:"",
-      },
-      empLoginErrors:[...nextProps.empLoginErrors],
-      loading:nextProps.loading,
-	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
+      },     
+       isChecked: localStorage.isChecked ? localStorage.isChecked : false,     
     });
 	  nextProps.history.push("/dashboard");
   }
@@ -60,16 +54,17 @@ class LoginPage extends Component {
       formData: {        
         employeeId:localStorage.employeeId?localStorage.employeeId:"",
         passWord:localStorage.passWord?localStorage.passWord:"",
-      },
-      empLoginErrors:[...nextProps.empLoginErrors],
-      loading:nextProps.loading,
-	  isChecked:localStorage.isChecked?localStorage.isChecked:false,
+      },     
+      isChecked: localStorage.isChecked ? localStorage.isChecked : false,      
     });	
   }  
   }
 
+  
+
   handleValidation = (event) => {
-    const validationErrors={};
+    
+    const validationErrors = {};   
     if(this.state.isChecked )
     {
 		localStorage.isChecked=this.state.isChecked;		
@@ -79,8 +74,8 @@ class LoginPage extends Component {
     else 
     {
       localStorage.removeItem("isChecked");
-	  localStorage.removeItem("employeeId");
-	  localStorage.removeItem("passWord");
+      localStorage.removeItem("employeeId");
+      localStorage.removeItem("passWord");
     }
    switch(event.type)
    {
@@ -88,9 +83,14 @@ class LoginPage extends Component {
       case "focus":  
       case "keyup":                   
       case "submit":
+         
 					if(localStorage.isChecked )
 					{
-						this.setState({...this.state, formData: { employeeId:localStorage.employeeId,passWord:localStorage.passWord},isChecked:true});	
+            this.setState({
+              ...this.state,
+              formData: { employeeId: localStorage.employeeId, passWord: localStorage.passWord },
+              isChecked: true
+            });
 					}
 					
                       if (!this.state.formData.employeeId ) validationErrors.employeeId = "Emp ID Can't be blank"
@@ -102,7 +102,10 @@ class LoginPage extends Component {
       default:
      
    }   
-    this.setState({...this.state, formErrors:{...validationErrors},empLoginErrors:[] });
+    this.setState({
+      ...this.state, formErrors: { ...validationErrors },
+      submitFlag: false,     
+    });
       if(validationErrors.employeeId==="" && validationErrors.passWord==="")
         return true
       else 
@@ -110,25 +113,12 @@ class LoginPage extends Component {
     
   };
   handleSubmit = (event) => {       
-    event.preventDefault();
+    event.preventDefault();    
     const {formData}=this.state;   
    if(this.handleValidation(event))	
-    {
-      this.setState({...this.state, loading:true,submitFlag:true});
-      checkAPIServerConnection(this.apiURL)
-          .then((res) => {
-                            if (res.status === 200) 
-                            {                             
-                              this.props.empLoginAction(formData); 
-                              this.setState({...this.state, submitFlag:true, empLoginErrors:[],});
-                            }
-                            else
-                            {                                                         
-                              store.dispatch(empLoggedErr({empsError: "Internal Server Error"}));
-                              this.setState({...this.state,submitFlag:false,  });									
-                            }    
-                          }   
-          ).catch((err)=>{ store.dispatch(empLoggedErr({...err})); });                                
+    {     
+      this.setState({...this.state, submitFlag:true});    
+                              this.props.empLoginAction(formData);                            
     }    
   };
 
@@ -149,7 +139,7 @@ class LoginPage extends Component {
   };
   render() {
     const { formData, isChecked } = this.state;
-    const {loading, empValidated}=this.props;
+    const {empValidated, errFlag}=this.props;
     return (
       <div className="container-fluid h-65 w95 ">
         <div className="row justify-content-center align-items-center h-100">
@@ -169,10 +159,11 @@ class LoginPage extends Component {
                   onChange={this.handleChange} 
                   onKeyUp  ={this.handleValidation}                         
                   onBlur={this.handleValidation}  
-                  onFocus={this.handleValidation}                    
+                  onFocus={this.handleValidation}
+                  disabled={this.state.submitFlag  && !errFlag} 
                 /> 
                  <label className="control-label" htmlFor="employeeId">
-                  Emp ID:                  
+                  Emp ID:                 
                 </label>                 
                   <EmpToolTip empErrMsg={this.state.formErrors.employeeId} />                 
               </div>
@@ -190,9 +181,10 @@ class LoginPage extends Component {
                   onFocus={this.handleValidation}                  
                   required
                   form="novalidatedform"
+                  disabled={this.state.submitFlag  && !errFlag} 
                 />   
                 <label className="control-label" htmlFor="passWord">
-                  passWord                  
+                  passWord                
                 </label>                     
                   <EmpToolTip empErrMsg={this.state.formErrors.passWord} />                                   
               </div>
@@ -208,15 +200,15 @@ class LoginPage extends Component {
                 <input
                   type="submit"
                   className="btn btn-info btn-lg btn-block "
-                  value="Sign In"
-                  disabled={(loading || this.state.loading) && this.state.submitFlag}
+                  value="Sign In"                  
+                  disabled={this.state.submitFlag } 
                 />                
               </div>
               <div className="form-group centerText">
-              <span className="alert-danger">
-                {!loading && !empValidated  && this.state.empLoginErrors.length>0?<EmpToolTip empErrMsg={this.state.empLoginErrors} classList={"fa fa-cut"} />:null}                  
-                </span>                
-                <span>{((loading || this.state.loading) && this.state.submitFlag )?<EmpsSpinner spinType={"MD"} />:null}</span>
+              <span className="alert-danger">                 
+                  {!empValidated  && this.state.submitFlag && errFlag ?<EmpToolTip empErrMsg={this.props.empLoginErrors} classList={"fa fa-cut"} />:null}             
+                </span>                               
+                <span>{  !empValidated  && this.state.submitFlag  && !errFlag?<EmpsSpinner spinType={"MD"} />:null}</span>
               </div>
             </form>
           </div>
@@ -243,4 +235,4 @@ function mapDispatchToProps(dispatch) {
     empLoginAction: bindActionCreators(empLoginAction, dispatch),
   };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorCatcher(LoginPage,axios));
