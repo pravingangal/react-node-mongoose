@@ -105,6 +105,5 @@ empSchema.methods._getAdmin_JSON_WEB_TOKEN = function empSchema(empID,emailSent,
     process.env.JSONWT_SEC_KEY
   ); 
 };
-
 const empModel = mongoose.model("emps", empSchema);
 export default empModel;
