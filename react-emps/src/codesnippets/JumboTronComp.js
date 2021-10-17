@@ -2,7 +2,7 @@ import React from "react";
 import "./JumboTronComp.css";
 import PropTypes from "prop-types";
 
-const JumboTronComp = ({displayMsg,jumboID,children}) => {  
+const jumboTronComp = ({displayMsg,jumboID,children}) => {  
   return (    
      <div className=" container  opacity8  " id={jumboID}>
     <div className=" jumbotron">
@@ -13,7 +13,8 @@ const JumboTronComp = ({displayMsg,jumboID,children}) => {
   </div>               
   );
 };
-JumboTronComp.propTypes = {  
+
+jumboTronComp.propTypes = {  
     displayMsg: PropTypes.string.isRequired,
   };
-export default JumboTronComp;
+export default jumboTronComp;
