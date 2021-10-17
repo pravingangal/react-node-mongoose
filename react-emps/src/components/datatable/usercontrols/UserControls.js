@@ -40,7 +40,7 @@ export const LabelControl=({lblText,lblFor,classNames})=>{
                                       {lblText}
                                       </label>
                                   );           
-}
+};
 
 
 export const IconControl=({iconId,iconText,classNames})=>{
@@ -52,7 +52,7 @@ export const IconControl=({iconId,iconText,classNames})=>{
             className={"fa fa-exclamation-triangle " + classNames}>              
             </i>
             );
-}
+};
 
 export const ButtonControl=({btnText,classNames,onClick})=>{
   return  (   <button  
@@ -62,7 +62,7 @@ export const ButtonControl=({btnText,classNames,onClick})=>{
                   {btnText}
               </button>
           );
-}
+};
 
 export const LinkCtrl=({valText,classNames,onClick})=>{
   return  (   <a 
@@ -72,4 +72,4 @@ export const LinkCtrl=({valText,classNames,onClick})=>{
                   {valText}
               </a>
           );
-}
+};
