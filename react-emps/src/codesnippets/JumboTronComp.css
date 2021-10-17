@@ -1,39 +1,41 @@
-.container
-{
-  min-height:60vh;
-  display:flex ;
-  align-items:center  ;
-  justify-content: center;;
-  margin-top:10%;
+.container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+  margin-top: 10%;
 }
-.jumbotron
-{
-  background:#fff;
-  padding:50px;
-  border-radius:10px;
-  position:relative;
-  text-align:center;
+.jumbotron {
+  background: #fff;
+  padding: 50px;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
 }
-.jumbotron p.lead + a.btn{
+.jumbotron p.lead + a.btn {
   font-size: 15px !important;
-  color:white;
+  color: white;
   font-weight: 900;
 }
 .opacity8 {
   opacity: 0.8;
 }
 
-@media all and (min-width:481px) and (max-width: 768px) {
+h1::first-letter {
+  text-transform: capitalize;
+}
+@media all and (min-width: 481px) and (max-width: 768px) {
   .container {
     margin-top: 25%;
   }
 }
-@media all and (min-width:320px) and (max-width: 480px) {
+@media all and (min-width: 320px) and (max-width: 480px) {
   .container {
     margin-top: 35%;
   }
 }
-@media all and (min-width:769px) and (max-width: 1024px) {
+@media all and (min-width: 769px) and (max-width: 1024px) {
   .container {
     margin-top: 20%;
   }
