@@ -1,7 +1,7 @@
 import React from "react";
 import "./ToolTip.css"; 
 
-const EmpToolTip = ({empErrMsg,classList}) => { 
+const empToolTip = ({empErrMsg,classList}) => { 
   return (<span  className={classList? classList + " empTooltip":" empTooltip"}>{" " +empErrMsg}</span>);
 }
-export default EmpToolTip;
+export default empToolTip;
