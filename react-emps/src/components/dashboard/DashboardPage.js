@@ -1,12 +1,10 @@
 import React, {Component} from "react";
 import "./DashboardPage.css";
 import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { empLoginSendEmailAction } from "../../actions/EmpLoginAction";
-import empData from "../../data/data";
+import empData from "../../data/empData";
 import DataTable from "../datatable/DataTable";
-import  {GetUniqueKey}  from "../../utilities/GetUniqueId";
+import GetUniqueKey from "../../utilities/GetUniqueId";
 
 class DashboardPage extends Component {
   constructor(props) {
@@ -95,10 +93,4 @@ DashboardPage.propTypes = {
           };
  }
 
- function mapDispatchToProps(dispatch) {
-  return {
-    empLoginSendEmailAction: bindActionCreators(empLoginSendEmailAction, dispatch),
-  };
-}
- 
- export default connect(mapStateToProps,mapDispatchToProps)(DashboardPage);
+ export default connect(mapStateToProps)(DashboardPage);
