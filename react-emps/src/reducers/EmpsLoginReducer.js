@@ -12,7 +12,7 @@ const initState = {
   empValidated:false,
   SUPER_ADMIN:false,
 };
-const EmpsLoginReducer = (state = initState, action = {}) => {
+const empsLoginReducer = (state = initState, action = {}) => {
 const newState = { ...state };
  
   switch (action.type) {
@@ -56,4 +56,4 @@ const newState = { ...state };
       return newState;
   }
 };
-export default EmpsLoginReducer;
+export default empsLoginReducer;
