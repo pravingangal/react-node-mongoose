@@ -1,0 +1,42 @@
+{
+  
+       "navItemsConfig": [
+         {
+           "_id": "Welcome",
+            "link": "/",
+            "itemId": 0,           
+            "itemText": "Welcome ",
+            "type":"display"
+         },
+         {
+            "_id": "Aboutus",
+            "link": "/aboutus",
+            "itemId": 1,           
+            "itemText": "About Us",
+            "type":"item" 
+         },
+         {
+            "_id": "Contact",
+            "link": "/contact",
+            "itemId": 2,            
+            "itemText": "Contact",
+            "type":"item"  
+         },
+         {
+            "_id": "Login",
+            "link": "/login",
+            "itemId": 3,            
+            "itemText": "Login",
+            "type":"login"  
+         },
+         {
+            "_id": "Logout",
+            "link": "/logout",
+            "itemId": 4,            
+            "itemText": "Logout",
+            "type":"logout" 
+         }
+       ]      
+    
+      
+}
