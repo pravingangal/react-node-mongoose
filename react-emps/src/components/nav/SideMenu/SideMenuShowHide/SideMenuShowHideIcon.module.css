@@ -1,0 +1,70 @@
+.outerDiv {
+  width: 45px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.outerDiv div {
+  display: block;
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  height: 5px;
+  width: 100%;
+  background: white;
+  border-radius: 9px;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: 0.5s ease-out;
+  transform-origin: left center;
+}
+
+.outerDiv div:first-of-type {
+  top: -5px;
+}
+.outerDiv div:nth-of-type(2) {
+  top: 8px;
+  left: 5px;
+  width: 80%;
+}
+.outerDiv div:nth-of-type(3) {
+  top: 16px;
+  left: 5px;
+  width: 80%;
+  display: none;
+}
+.outerDiv div:last-of-type {
+  top: 20px;
+}
+
+.outerDiv.closeCross div:first-of-type {
+  transform: rotate(360deg);
+  width: 77%;
+}
+.outerDiv.closeCross div:nth-of-type(2) {
+  transform: rotate(45deg);
+  width: 40%;
+  left: 10px;
+  top: 3px;
+}
+.outerDiv.closeCross div:nth-of-type(3) {
+  display: block;
+  transform: rotate(-45deg);
+  width: 40%;
+  left: 11px;
+}
+.outerDiv.closeCross div:last-of-type {
+  transform: rotate(-360deg);
+  width: 77%;
+  top: 23px;
+}
+@media (min-width: 500px) {
+  .outerDiv {
+    display: none;
+  }
+}
