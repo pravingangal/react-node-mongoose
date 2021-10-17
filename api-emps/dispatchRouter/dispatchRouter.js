@@ -22,5 +22,4 @@ dispatchRouter.post("/*", (req, res) => {
     default:
   }
 });
-
 export default dispatchRouter;
