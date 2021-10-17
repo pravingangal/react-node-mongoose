@@ -1,27 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import store from "./store/store";
 import decode from "jwt-decode";
+import UserSession from "./utilities/UserSession/UserSession";
 import App from "./App";
+import {empLoggedIn} from "./actions/EmpLoginAction";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import "jquery/dist/jquery";
 import "bootstrap/dist/js/bootstrap"
 import "font-awesome/css/font-awesome.min.css";
-import {empLoggedIn} from "./actions/EmpLoginAction";
 
-if (localStorage.refreshJWToken) {  
-  const tokenLoad = decode(localStorage.refreshJWToken);   
+if (UserSession.getSessionVar("refreshJWToken")) {  
+  const tokenLoad = decode(UserSession.getSessionVar("refreshJWToken"));   
   if(tokenLoad.SUPER_ADMIN)
   {
     tokenLoad.emps=[];
-    tokenLoad.refreshToken=localStorage.refreshJWToken;
+    tokenLoad.refreshToken = UserSession.getSessionVar("refreshJWToken");
   }
   else
   {     
       tokenLoad.emps= {...tokenLoad};
-      tokenLoad.refreshToken=localStorage.refreshJWToken;          
+    tokenLoad.refreshToken = UserSession.getSessionVar("refreshJWToken");
   }
   store.dispatch(empLoggedIn({...tokenLoad})); 
 }
@@ -30,11 +32,16 @@ else
    
  }
 
-ReactDOM.render(
-   <Provider store={store}>     
-      <App />
-    </Provider>  
-  ,
+ const app = (
+   <Router>
+     <Provider store={store}>
+       <App />
+    </Provider>        
+    </Router>
+ );
+
+ ReactDOM.render(       
+  app,
   document.getElementById("root")
 );
 
