@@ -1,5 +1,5 @@
 import React,{useRef, useEffect} from "react";
-import  {GetUniqueKey}  from "../../utilities/GetUniqueId";
+import  GetUniqueKey  from "../../utilities/GetUniqueId";
 import  {TableHeader, TableBody} from "./usercontrols/TableControls";
 import TableCboxReducer,{InitStateCBox} from "./tablereducers/TableCboxReducer";
 import Tableclasses from "./DataTable.module.css";
@@ -8,7 +8,7 @@ import socketIOClient from "socket.io-client";
 
 export const TableContext = React.createContext();
 
-const  DataTable= React.memo(({colsHeaderData, colsBodyData, noOfCols,showCheckBoxes,superAdminConfigArr}) => {  
+const  dataTable= React.memo(({colsHeaderData, colsBodyData, noOfCols,showCheckBoxes,superAdminConfigArr}) => {  
 
 const refDataTable=useRef(); 
 const [state, dispatch] = React.useReducer(TableCboxReducer, InitStateCBox(colsBodyData));
@@ -16,8 +16,7 @@ const APIURL= "http://127.0.0.1:4000";
 
 useEffect(()=>{ 
     
-    let socket = socketIOClient(APIURL);
-    
+    let socket = socketIOClient(APIURL);    
     socket.on("connect",()=>{});
 
     socket.on("emailConfirmed", (emailConfirmedDataObj) => {                                 
@@ -81,4 +80,4 @@ return(
         </div>                   
        );     
 });
-export default DataTable;
+export default dataTable;
