@@ -1,4 +1,3 @@
 export const EMAIL_SENT="EMAIL_SENT";
 export const EMAIL_SENT_ERR= "EMAIL_SENT_ERR";
 export const EMAIL_CONFIRMED="EMAIL_CONFIRMED";
-
