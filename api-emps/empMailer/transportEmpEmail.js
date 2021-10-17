@@ -140,5 +140,4 @@ function getEmp_Confirmation_Token(valObj) {
                   
 };
 
-
 export default transportEmpEmail;
