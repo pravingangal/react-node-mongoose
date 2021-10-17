@@ -1,0 +1,57 @@
+.outerDiv {
+  position: fixed;
+  left: 15%;
+  top: 25%;
+  z-index: 999;
+  width: 65%;
+  border: 1px solid rgb(46, 45, 44);
+  background: rgb(243, 236, 194) none repeat scroll 0% 0%;
+  padding: 5%;
+  box-sizing: border-box;
+  transition: all 0.5s ease-out;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  box-shadow: 5px 5px 10px 0px #888888;
+}
+
+.showModal {
+  transform: scale(1);
+}
+.hideModal {
+  transform: scale(0);
+}
+
+.popModal {
+  font-size: 15px;
+}
+.popModal > .clCls {
+  cursor: hand;
+  position: absolute;
+  display: block;
+  padding: 1px 5px 3px;
+  line-height: 14px;
+  right: -5px;
+  top: -3px;
+  font-size: 24px;
+  background: #bdbaba;
+  border-radius: 18px;
+  border: 1px solid #1a1818;
+  font-size: 15px;
+}
+.popModal a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  background: #c9cccc;
+  color: white;
+  font-weight: bold;
+}
+
+@media (min-width: 599px) {
+  .outerDiv {
+    width: 35%;
+    left: 30%;
+  }
+}
