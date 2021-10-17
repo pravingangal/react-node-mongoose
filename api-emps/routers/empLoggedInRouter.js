@@ -28,8 +28,7 @@ function empLoggedInRouter(req, res) {
                                     res.json({ emps,role:"Super",refreshToken:getSuper_JSON_WEB_TOKEN(),SUPER_ADMIN:true });
                                     
                                   })
-                                  .catch((err) => {
-                                   
+                                  .catch((err) => {                                   
                                     res.status(400).json({
                                       empsError: "No emps data",
                                     });
@@ -90,7 +89,8 @@ function empLoggedInRouter(req, res) {
                                 }
                               })
                               .catch((err) => {                                                               
-                                res.status(400).json({
+                               res.status(400).json({
+                                 //res.json({
                                   empsError: "Emp not found",
                                 });
                               });
@@ -107,7 +107,7 @@ function empLoggedInRouter(req, res) {
   else
   {//*********************start mongoose.connection.readyState else************************ */    
     res.status(400).json({
-      empsError: "Unable to Connect to Mongodb",
+      empsError: "Mongodb Not Connected",
     });
   }//*********************end mongoose.connection.readyState else************************ */
 }
