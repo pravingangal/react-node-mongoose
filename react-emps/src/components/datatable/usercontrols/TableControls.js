@@ -1,6 +1,6 @@
 import React, {useRef, forwardRef, useImperativeHandle} from "react";
 import {InputControl, LabelControl, ButtonControl, IconControl, LinkCtrl} from "./UserControls";
-import {GetUniqueKey}  from "../../../utilities/GetUniqueId";
+import GetUniqueKey from "../../../utilities/GetUniqueId";
 import {TableContext} from "../DataTable";
 import {SEL_ONE_LIST}  from "../tabletypes/CheckBoxTypes";
 import {selAllClickedAction} from "../tableactions/TableActions";
