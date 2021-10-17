@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import empModel from "../empModel/empModel";
 import jwt_decode from "jwt-decode";
 
-
 function empConfirmedEmailRouter(req, res) {
 
   const empConfirmedEmailData = req.body.confirmationToken;  
