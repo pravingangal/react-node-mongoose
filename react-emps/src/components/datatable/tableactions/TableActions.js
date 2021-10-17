@@ -1,6 +1,6 @@
 import {SELALL}  from "../tabletypes/CheckBoxTypes";
-import {EMAIL_SENT,  EMAIL_SENT_ERR,EMAIL_CONFIRMED}  from "../tabletypes/EmailTypes";
-import axios from "axios";
+import * as emailActionTypes from "../tabletypes/EmailTypes";
+import axios from '../../../axios-inst';
 
 
 export const selAllClickedAction = (isChecked) => {  
@@ -8,20 +8,20 @@ export const selAllClickedAction = (isChecked) => {
 };
 
 export const emailDataArrAction=(dataArr)=>{  
-  return {type: EMAIL_SENT,payload: {emailDataArr:[...dataArr]}} 
+  return {type: emailActionTypes.EMAIL_SENT,payload: {emailDataArr:[...dataArr]}} 
 }
 
 export const emailConfirmedAction=(dataObj,selOneCBoxArr)=>{
-  return {type: EMAIL_CONFIRMED,payload: {emailConfirmedDataObj:{...dataObj},selOneCBoxArr:selOneCBoxArr}} 
+  return {type: emailActionTypes.EMAIL_CONFIRMED,payload: {emailConfirmedDataObj:{...dataObj},selOneCBoxArr:selOneCBoxArr}} 
 }
 
 export const emailErrAction=(err)=>{
-  return {type: EMAIL_SENT_ERR,payload: err} 
+  return {type: emailActionTypes.EMAIL_SENT_ERR,payload: err} 
 }
 
 export const sendEmailAction = (sendEmailData) => {
-  return axios.post(
-    "http://localhost:4000/empApi/empLoggedInSendEmail",
+  return axios.post(   
+     "/empApi/empLoggedInSendEmail",
     sendEmailData
   );
  
