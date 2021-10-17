@@ -12,5 +12,4 @@ async function empMailer(empLoginSendEmailData) {
     return await Promise.all(emailArr);   
   
 }
-
 export default empMailer;
