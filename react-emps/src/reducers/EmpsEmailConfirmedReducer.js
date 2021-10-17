@@ -8,7 +8,7 @@ const initState = {
   empNameOfConfirmedEmail:null,
   empEmailConfirmationErr:null  
 };
-const EmpsEmailConfirmedReducer = (state = initState, action = {}) => {  
+const empsEmailConfirmedReducer = (state = initState, action = {}) => {  
   const newState = { ...state };   
   switch (action.type) {
     case   EMP_EMAIL_CONFIRMED:      
@@ -38,4 +38,4 @@ const EmpsEmailConfirmedReducer = (state = initState, action = {}) => {
   }
 };
 
-export default EmpsEmailConfirmedReducer;
+export default empsEmailConfirmedReducer;
