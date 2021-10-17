@@ -1,0 +1,74 @@
+.navbar {
+  background: #bdd4e7;
+  background: -moz-linear-gradient(top, #bdd4e7 0%, #8693ab 100%);
+  background: -webkit-linear-gradient(top, #bdd4e7 0%, #8693ab 100%);
+  background: linear-gradient(to bottom, #bdd4e7 0%, #8693ab 100%);
+  min-height: 30px;
+  max-height: 55px;
+  align-items: center;
+  display: flex;
+}
+
+.navbarEmailVerifyingEmp {
+  background: #bdd4e7;
+  background: -moz-linear-gradient(top, #bdd4e7 0%, #8693ab 100%);
+  background: -webkit-linear-gradient(top, #bdd4e7 0%, #8693ab 100%);
+  background: linear-gradient(to bottom, #bdd4e7 0%, #8693ab 100%);
+  min-height: 30px;
+  max-height: 55px;
+  align-items: center;
+}
+
+.showNavItem {
+}
+.hideNavItem {
+}
+.left,
+.right {
+  flex: 1;
+}
+.right {
+  text-align: right;
+}
+h5 {
+  top: -5px;
+  position: relative;
+}
+.fixedHeader {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.showNav {
+}
+.showEmailVerifyingEmp {
+  display: none !important;
+}
+.spanEmailVerifyingEmp {
+  float: right !important;
+}
+ul {
+  list-style-type: none;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+  width: auto;
+  position: relative;
+  top: -8px;
+  height: 55px;
+}
+
+@media (max-width: 500px) {
+  .showNav {
+    display: none !important;
+    color: blue;
+  }
+}
+
+.NavigationItems {
+}
+
+@media (min-width: 500px) {
+}
