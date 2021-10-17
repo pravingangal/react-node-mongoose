@@ -1,10 +1,5 @@
-const getUniqueId = () => { 
-    return Date.now()+Math.random();
-  }
-
-
- export const GetUniqueKey=()=>{        
+export const getUniqueKey=()=>{        
     return +new Date().getHours()+"-"+new Date().getMinutes()+"-"+new Date().getSeconds()+"-"+Math.random();
 }
 
-  export default getUniqueId;
+  export default getUniqueKey;
