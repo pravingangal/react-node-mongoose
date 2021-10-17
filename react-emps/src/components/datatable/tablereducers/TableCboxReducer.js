@@ -1,12 +1,13 @@
 import {SEL_ONE_REFRESH, SEL_ONE_LIST}  from "../tabletypes/CheckBoxTypes";
-import {EMAIL_SENT, EMAIL_SENT_ERR, EMAIL_CONFIRMED}  from "../tabletypes/EmailTypes";
+import { EMAIL_SENT, EMAIL_SENT_ERR, EMAIL_CONFIRMED } from "../tabletypes/EmailTypes";
+import UserSession from "../../../utilities/UserSession/UserSession";
 import decode from "jwt-decode";
 import jwt from "jsonwebtoken";
 
 
 export default function  tableCboxReducer  (state, action)  {
   const newState = { ...state };
-  const tokenLoad = decode(localStorage.refreshJWToken); 
+  const tokenLoad = decode(UserSession.getSessionVar("refreshJWToken")); 
   const JSONWT_SEC_KEY="secretkey";
   const get_JSON_WEB_TOKEN=(tokenObj)=>{
     return jwt.sign({...tokenObj},JSONWT_SEC_KEY);
@@ -29,24 +30,24 @@ export default function  tableCboxReducer  (state, action)  {
         const NEWSELONEARR=[...state.selOneArr];
         NEWSELONEARR.forEach((obj)=>{obj.isChecked=false;})
         action.payload.emailDataArr.forEach((obj)=>{           
-          let index=state.bodyDataArr.findIndex(val=>{return  val.id===obj.EmpId});          
-          newBodyDataArr[index]["emailErr"]=obj.emailErr;
-          newBodyDataArr[index]["emailInfo"]=obj.emailInfo;
-          newBodyDataArr[index]["emailSent"]=obj.emailSent; 
-          newBodyDataArr[index]["emailConfirmed"]=false;
-          newBodyDataArr[index]["emailConfirmationErr"]=null;
-          index=state.selOneArr.findIndex(val=>{return  val.EmpId===obj.EmpId});         
-          NEWSELONEARR[index]["isChecked"]=true;
+        let index=state.bodyDataArr.findIndex(val=>{return  val.id===obj.EmpId});          
+        newBodyDataArr[index]["emailErr"]=obj.emailErr;
+        newBodyDataArr[index]["emailInfo"]=obj.emailInfo;
+        newBodyDataArr[index]["emailSent"]=obj.emailSent; 
+        newBodyDataArr[index]["emailConfirmed"]=false;
+        newBodyDataArr[index]["emailConfirmationErr"]=null;
+        index=state.selOneArr.findIndex(val=>{return  val.EmpId===obj.EmpId});         
+        NEWSELONEARR[index]["isChecked"]=true;
 
           if(parseInt(tokenLoad.id)===parseInt(obj.EmpId))
-          {
-            localStorage.removeItem("refreshJWToken");
+          {            
+            UserSession.reSetSessionVar("refreshJWToken", "");
             tokenLoad.emailErr=obj.emailErr;
             tokenLoad.emailInfo=obj.emailInfo;
             tokenLoad.emailSent=obj.emailSent;
             tokenLoad.emailConfirmed=obj.emailConfirmed;
-            tokenLoad.emailConfirmationErr=obj.emailConfirmationErr;
-            localStorage.refreshJWToken =get_JSON_WEB_TOKEN(tokenLoad);            
+            tokenLoad.emailConfirmationErr=obj.emailConfirmationErr;            
+            UserSession.reSetSessionVar("refreshJWToken", get_JSON_WEB_TOKEN(tokenLoad), false);
           }
 
         });       
@@ -87,11 +88,11 @@ export default function  tableCboxReducer  (state, action)  {
 
         const indexToken=newEmailConfirmedDataArr.findIndex(val=>{return  parseInt(val.EmpId)===parseInt(tokenLoad.id)});
         if(indexToken>-1)
-        {
-          localStorage.removeItem("refreshJWToken");
+        {         
+          UserSession.reSetSessionVar("refreshJWToken", "");
           tokenLoad.emailConfirmed=action.payload.emailConfirmedDataObj.emailConfirmed;
-          tokenLoad.emailConfirmationErr=action.payload.emailConfirmedDataObj.emailConfirmationErr;
-          localStorage.refreshJWToken =get_JSON_WEB_TOKEN(tokenLoad);          
+          tokenLoad.emailConfirmationErr=action.payload.emailConfirmedDataObj.emailConfirmationErr;          
+          UserSession.reSetSessionVar("refreshJWToken", get_JSON_WEB_TOKEN(tokenLoad), false);
         } 
 
         return {
