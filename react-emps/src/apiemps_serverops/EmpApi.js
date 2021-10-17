@@ -1,25 +1,27 @@
-import axios from "axios";
+import axios from '../axios-inst';
 
-export const EmpApi = {
+const empApi = {
   emps: {
     Login: (empLoginData) => {     
-      return axios.post(
-        "http://localhost:4000/empApi/empLoggedIn",
+      return axios.post(      
+        "/empApi/empLoggedIn",
         empLoginData
       );
     },
     loggedInSendEmail:(empLoginSendEmailData)=>{
-      return axios.post(
-        "http://localhost:4000/empApi/empLoggedInSendEmail",
+      return axios.post(       
+        "/empApi/empLoggedInSendEmail",
         empLoginSendEmailData
       );
     },
     empConfirmedEmail:(empConfirmEmailData)=>{
-      return axios.post(
-        "http://localhost:4000/empApi/empConfirmedEmail",
+      return axios.post(        
+        "/empApi/empConfirmedEmail",
         empConfirmEmailData
       );
     }
   },
  
 };
+
+export default empApi;
