@@ -38,5 +38,4 @@ class newEmp {
     return this.EmpRecord;
   }
 }
-
 export default newEmp;
