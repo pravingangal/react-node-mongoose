@@ -3,8 +3,6 @@ import nodemailer from "nodemailer";
 import empModel from "../empModel/empModel";
 import empMailer from "../empMailer/empMailer";
 
-
-
 function empLoggedinSendEmailRouter(req, res) {
 
   const empLoginSendEmailData = req.body;
