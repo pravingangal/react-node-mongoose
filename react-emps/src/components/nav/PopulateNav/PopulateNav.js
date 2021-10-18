@@ -11,13 +11,7 @@ const PopulateNav =
     const navListData = useRef([]);
     const loginNavItemObj = useRef(null);
     const logoutNavItemObj = useRef(null);
-    const displayNavItemObj = useRef(null);
-        
-    useEffect(() => {
-            console.log("PopulateNav");         
-    },  []
-      );
-    
+    const displayNavItemObj = useRef(null);     
     const loadNavList = useCallback(async => {
         
        const tokenLoad = refreshToken ? (
