@@ -9,11 +9,7 @@ const SideMenu =
              let sideNavClasses = [classesSideMenu.SideMenu, props.showSideMenu ? classesSideMenu.Show : classesSideMenu.Hide];                      
             
              const [showScreenCover, setShowScreenCover] = useState(true);
-
-             useEffect(() => {
-            console.log("sidemenu");         
-    },  []
-      );
+            
               useEffect(() => {
                                     
                    const windowSizeChanged = () => {
