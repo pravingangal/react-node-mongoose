@@ -1,6 +1,6 @@
 # react-node-mongoose
 
-# Emps - react, Mongoose(for MongoDB and node server API APP
+# Emps - react, Mongoose(for MongoDB and node server API APP)
 This repo contains all required files in two folders - react-emps and api-emps and has package.json file for installing required node modules.
 
 
